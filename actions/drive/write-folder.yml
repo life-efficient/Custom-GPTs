@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: Google Drive API Operations
+  description: An OpenAPI specification for creating folders and listing files in Google Drive.
+  version: "1.0"
+servers:
+  - url: https://www.googleapis.com/drive/v3
+
+paths:
+  /files:
+    get:
+      summary: List files in Google Drive
+      operationId: listFiles
+      parameters:
+        - name: corpora
+          in: query
+          schema:
+            type: string
+          description: The source of files to list.
+        - name: driveId
+          in: query
+          schema:
+            type: string
+          description: ID of the shared drive to search.
+        - name: includeItemsFromAllDrives
+          in: query
+          schema:
+            type: boolean
+          description: Whether both My Drive and shared drive items should be included in results.
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          description: A comma-separated list of sort keys.
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 100
+          description: The maximum number of files to return per page.
+        - name: pageToken
+          in: query
+          schema:
+            type: string
+          description: The token for continuing a previous list request on the next page.
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: A query for filtering the file results.
+        - name: spaces
+          in: query
+          schema:
+            type: string
+            default: "drive"
+          description: A comma-separated list of spaces to query within.
+        - name: fields
+          in: query
+          schema:
+            type: string
+            default: "nextPageToken, files(id, name)"
+          description: The fields to include in a partial response.
+      responses:
+        "200":
+          description: List of files retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileList"
+        "400":
+          description: Bad Request
+
+  /files:
+    post:
+      summary: Create a new folder in Google Drive
+      operationId: createFolder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/File"
+              example:
+                name: "New Folder"
+                mimeType: "application/vnd.google-apps.folder"
+      responses:
+        "200":
+          description: Folder created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/File"
+        "400":
+          description: Bad Request
+
+components:
+  schemas:
+    File:
+      type: object
+      properties:
+        kind:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        mimeType:
+          type: string
+
+    FileList:
+      type: object
+      properties:
+        kind:
+          type: string
+        nextPageToken:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/File"
