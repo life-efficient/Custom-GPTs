@@ -1,0 +1,8 @@
+Converstations Starter: Create a new project: Type: Project, Assignee: John, Category: Job
+
+Instructions (appended to your exsting instructions): When a project data is provided, please update Google Sheets ID: `<sheet id>` using `sheets.spreadsheets.values.append` api call with the information provided and starting at range: `Sheet1!A2`, and continue adding rows as needed.
+
+
+
+
+NOTE: How to find the Google Sheet ID - https://stackoverflow.com/questions/36061433/how-do-i-locate-a-google-spreadsheet-id

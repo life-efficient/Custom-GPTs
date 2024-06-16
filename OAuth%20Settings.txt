@@ -1,0 +1,26 @@
+Navigate to: `https://console.cloud.google.com/apis/credentials/consent` and create an `OAuth consent screen`
+
+
+Page 1:
+App Name: `<Give it a name>`
+User support email: `<your email address>`
+Publishing status: Test
+User type: External
+Test users: `<your email address>`
+
+Application home page: https://chat.openai.com/
+Application privacy policy link: https://chat.openai.com/
+Authorized domain 1: openai.com
+
+Developer contact information: `<your email address>`
+
+Page 2:
+Scopes (search for `Sheets`): 
+.../auth/spreadsheets
+.../auth/spreadsheets.readonly
+
+Page 3:
+Test users: `<your email address>`
+
+
+"Save and continue"
