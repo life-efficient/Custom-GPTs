@@ -4,7 +4,13 @@ const LinkCard = props => {
 	return (
 		<a
 			href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-			className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+			className="group 
+			rounded-lg border border-transparent 
+			px-5 py-4 
+			h-full
+			flex flex-col items-start
+			overflow-hidden
+			transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
 			target="_blank"
 			rel="noopener noreferrer"
 			>
@@ -61,10 +67,10 @@ export default function Home() {
 			</div>
 
 			<div className="grid justify-center items-center mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+				<LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." />
 				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." />
-				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." />
-				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." />
-				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." />
+				<LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." />
+				<LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" />
 				<LinkCard title="Fill your content calendar (text)" description="Create the next month of text posts for X, LinkedIn, Facebook, etc." />
 			</div>
 		</main>
