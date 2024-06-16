@@ -3,7 +3,7 @@ import Image from "next/image";
 const LinkCard = props => {
 	return (
 		<a
-			href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+			href={props.link}
 			className="group 
 			rounded-lg border border-transparent 
 			px-5 py-4 
@@ -75,11 +75,12 @@ export default function Home() {
 			</div>
 
 			<div className="grid justify-center items-center mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-				<LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." />
-				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." />
+				<LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
+				<LinkCard title="Build a thought partner" description="Create a new partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
+				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." link=""/>
 				<LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." />
 				<LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" />
-				<LinkCard title="Fill your content calendar (text)" description="Create the next month of text posts for X, LinkedIn, Facebook, etc." />
+				<LinkCard title="Fill your content calendar (text)" description="Schedule and automate the next month of text posts for X, LinkedIn, Facebook, etc." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
 			</div>
 		</main>
 	);
