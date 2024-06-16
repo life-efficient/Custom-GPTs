@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: Google Sheets API Update Operation
+  description: An OpenAPI specification for updating a range of cells in a Google Sheet.
+  version: "1.0"
+servers:
+  - url: "https://sheets.googleapis.com/v4/spreadsheets"
+paths:
+  /18ms7oxh40Dw3xrZQleYL2Ct2dQ7B-E7H3Y5Jx4qI4fM/values/{range}:
+    put:
+      summary: Update a range of values in a spreadsheet
+      operationId: updateSpreadsheetValues
+      parameters:
+        - name: range
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The A1 notation of the range to update.
+        - name: valueInputOption
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - RAW
+              - USER_ENTERED
+          description: How the input data should be interpreted.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValueRange"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateValuesResponse"
+        "400":
+          description: Bad Request
+components:
+  schemas:
+    ValueRange:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+          description: The new data to be placed in the range.
+    UpdateValuesResponse:
+      type: object
+      properties:
+        updatedRange:
+          type: string
+        updatedRows:
+          type: integer
+        updatedColumns:
+          type: integer
+        updatedCells:
+          type: integer
