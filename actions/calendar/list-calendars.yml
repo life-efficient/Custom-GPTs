@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  title: Google Calendar API
+  description: OpenAPI specification for listing calendar entries using the Google Calendar API.
+  version: "1.0"
+servers:
+  - url: https://www.googleapis.com/calendar/v3
+paths:
+  /users/me/calendarList:
+    get:
+      summary: List calendar entries
+      operationId: listCalendarEntries
+      parameters:
+        - name: maxResults
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of entries returned on one result page. By default, the value is 100 entries. The page size can never be larger than 250 entries.
+        - name: minAccessRole
+          in: query
+          required: false
+          schema:
+            type: string
+          description: The minimum access role for the user in the returned entries. The default is no restriction.
+        - name: pageToken
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Token specifying which result page to return.
+        - name: showDeleted
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Whether to include deleted calendar list entries in the result. Deleted calendar list entries are represented by entries with the "deleted" property set to true.
+        - name: showHidden
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Whether to show hidden entries.
+        - name: syncToken
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since the last sync.
+      responses:
+        "200":
+          description: Successful retrieval of calendar list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalendarList"
+        "400":
+          description: Invalid request
+components:
+  schemas:
+    CalendarListEntry:
+      type: object
+      properties:
+        kind:
+          type: string
+          description: Type of the resource (calendar#calendarListEntry).
+        etag:
+          type: string
+          description: ETag of the resource.
+        id:
+          type: string
+          description: ID of the calendar.
+        summary:
+          type: string
+          description: Title of the calendar.
+        description:
+          type: string
+          description: Description of the calendar.
+        location:
+          type: string
+          description: Geographic location of the calendar.
+        timeZone:
+          type: string
+          description: The time zone of the calendar.
+        summaryOverride:
+          type: string
+          description: The summary that the authenticated user has set for this calendar.
+        colorId:
+          type: string
+          description: The color ID of the calendar.
+        backgroundColor:
+          type: string
+          description: The background color of the calendar in hexadecimal format.
+        foregroundColor:
+          type: string
+          description: The foreground color of the calendar in hexadecimal format.
+        hidden:
+          type: boolean
+          description: Whether the calendar is hidden from the list.
+        selected:
+          type: boolean
+          description: Whether the calendar content shows up in the calendar UI.
+        accessRole:
+          type: string
+          description: The effective access role that the authenticated user has on the calendar (e.g., freeBusyReader, reader, writer, owner).
+        defaultReminders:
+          type: array
+          items:
+            type: object
+            properties:
+              method:
+                type: string
+                description: The method used by this reminder (e.g., email, sms).
+              minutes:
+                type: integer
+                description: Number of minutes before the event when the reminder should trigger.
+        notificationSettings:
+          type: object
+          properties:
+            notifications:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The type of notification (e.g., eventCreation, eventChange).
+                  method:
+                    type: string
+                    description: The method used by this notification (e.g., email).
+        primary:
+          type: boolean
+          description: Whether the calendar is the primary calendar of the authenticated user.
+        deleted:
+          type: boolean
+          description: Whether the calendar has been deleted from the calendar list.
+    CalendarList:
+      type: object
+      properties:
+        kind:
+          type: string
+          description: Type of the resource (calendar#calendarList).
+        etag:
+          type: string
+          description: ETag of the resource.
+        nextPageToken:
+          type: string
+          description: Token used to access the next page of this result.
+        nextSyncToken:
+          type: string
+          description: Token used at a later point in time to retrieve only the entries that have changed since this result was returned.
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CalendarListEntry"

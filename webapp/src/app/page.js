@@ -76,11 +76,13 @@ export default function Home() {
 
 			<div className="grid justify-center items-center mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
 				<LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
-				<LinkCard title="Build a thought partner" description="Create a new partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
+				<LinkCard title="Build a thought partner" description="Create a new AI partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
 				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." link=""/>
-				<LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." />
-				<LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" />
+				{/* <LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." /> */}
+				{/* <LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" /> */}
 				<LinkCard title="Fill your content calendar (text)" description="Schedule and automate the next month of text posts for X, LinkedIn, Facebook, etc." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
+				<LinkCard title="Terms of service creator" description="Publish the legally required terms of service page for your website." link="https://chatgpt.com/g/g-JWYorVe9u-terms-of-service-creator"/>
+				<LinkCard title="Privacy policy creator" description="Publish the legally required privacy policy page for your website." link="https://chatgpt.com/g/g-RyUIJ7hGZ-privacy-policy-creator"/>
 			</div>
 		</main>
 	);
