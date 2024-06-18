@@ -84,6 +84,7 @@ export default function Home() {
 				<LinkCard title="Fill your content calendar (text)" description="Schedule and automate the next month of text posts for X, LinkedIn, Facebook, etc." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
 				<LinkCard title="Terms of service creator" description="Publish the legally required terms of service page for your website." link="https://chatgpt.com/g/g-JWYorVe9u-terms-of-service-creator"/>
 				<LinkCard title="Privacy policy creator" description="Publish the legally required privacy policy page for your website." link="https://chatgpt.com/g/g-RyUIJ7hGZ-privacy-policy-creator"/>
+				<LinkCard title="Skool Community Manager" description="Create your online community and schedule posts." link="https://chatgpt.com/g/g-Steg9kjAr-skool-community-manager"/>
 			</div>
 		</main>
 	);
