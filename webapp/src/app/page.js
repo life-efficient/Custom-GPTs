@@ -80,6 +80,7 @@ export default function Home() {
 				<LinkCard title="Build Brand Guidelines" description="Create a brand guideline document for your company to set the scene." link=""/>
 				{/* <LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." /> */}
 				{/* <LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" /> */}
+				<LinkCard title="Plan your day" description="Time-block your calendar for today" link="https://chatgpt.com/g/g-u26UqZ7I3-calendar-planner"/>
 				<LinkCard title="Fill your content calendar (text)" description="Schedule and automate the next month of text posts for X, LinkedIn, Facebook, etc." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
 				<LinkCard title="Terms of service creator" description="Publish the legally required terms of service page for your website." link="https://chatgpt.com/g/g-JWYorVe9u-terms-of-service-creator"/>
 				<LinkCard title="Privacy policy creator" description="Publish the legally required privacy policy page for your website." link="https://chatgpt.com/g/g-RyUIJ7hGZ-privacy-policy-creator"/>
