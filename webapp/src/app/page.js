@@ -79,7 +79,7 @@ export default function Home() {
 			</div>
 
 			<div className="grid justify-center items-center mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-				<LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
+				{/* <LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/> */}
 				<LinkCard title="Build a thought partner" description="Create a new AI partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
 				<LinkCard title="Brand Builder Guidelines" description="Create a brand document to capture details about what you do for all other AI employees." link=""/>
 				<LinkCard title="Plan your day" description="Time-block your calendar for today, a habit followed by most successful people." link="https://chatgpt.com/g/g-u26UqZ7I3-calendar-planner"/>
