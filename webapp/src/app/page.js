@@ -68,7 +68,7 @@ export default function Home() {
 			sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 
 			before:lg:h-[360px] 
 			z-[-1]">
-				{/* <Image
+				{/* <Image	
 				className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
 				src="/next.svg"
 				alt="Next.js Logo"
