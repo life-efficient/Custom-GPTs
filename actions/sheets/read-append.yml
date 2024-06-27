@@ -1,32 +1,12 @@
 openapi: 3.1.0
 info:
   title: Google Sheets API Operations
-  description: An OpenAPI specification for creating, updating, reading, and appending a range of cells in a Google Sheet.
+  description: An OpenAPI specification for reading and appending a range of cells in a Google Sheet.
   version: "1.0"
 servers:
   - url: https://sheets.googleapis.com/v4/spreadsheets
 
 paths:
-  /:
-    post:
-      summary: Create a new spreadsheet
-      operationId: createSpreadsheet
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Spreadsheet"
-      responses:
-        "200":
-          description: Spreadsheet created successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Spreadsheet"
-        "400":
-          description: Bad Request
-
   /{spreadsheetId}:
     get:
       summary: Read the entire spreadsheet
@@ -72,47 +52,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValueRange"
-        "400":
-          description: Bad Request
-
-    put:
-      summary: Update a range of values in a spreadsheet
-      operationId: updateSpreadsheetValues
-      parameters:
-        - name: spreadsheetId
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The unique identifier for the spreadsheet.
-        - name: range
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The A1 notation of the range to update.
-        - name: valueInputOption
-          in: query
-          required: true
-          schema:
-            type: string
-            enum:
-              - RAW
-              - USER_ENTERED
-          description: How the input data should be interpreted.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ValueRange"
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UpdateValuesResponse"
         "400":
           description: Bad Request
 
@@ -168,41 +107,6 @@ paths:
 
 components:
   schemas:
-    Spreadsheet:
-      type: object
-      properties:
-        properties:
-          type: object
-          properties:
-            title:
-              type: string
-            locale:
-              type: string
-            autoRecalc:
-              type: string
-            timeZone:
-              type: string
-        sheets:
-          type: array
-          items:
-            type: object
-            properties:
-              properties:
-                type: object
-                properties:
-                  title:
-                    type: string
-                  index:
-                    type: integer
-                  sheetType:
-                    type: string
-                  gridProperties:
-                    type: object
-                    properties:
-                      rowCount:
-                        type: integer
-                      columnCount:
-                        type: integer
     ValueRange:
       type: object
       properties:
@@ -213,19 +117,6 @@ components:
             items:
               type: string
           description: The new data to be placed in the range.
-    UpdateValuesResponse:
-      type: object
-      properties:
-        spreadsheetId:
-          type: string
-        updatedRange:
-          type: string
-        updatedRows:
-          type: integer
-        updatedColumns:
-          type: integer
-        updatedCells:
-          type: integer
     AppendValuesResponse:
       type: object
       properties:
