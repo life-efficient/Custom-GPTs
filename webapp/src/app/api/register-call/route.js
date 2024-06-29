@@ -7,6 +7,7 @@ export async function POST(req, res) {
     console.log('req body:', req.body)
     const body = JSON.parse((await req.json()).body)
     console.log('body:', body)
-    const response = await registerCall(body);
+    let response = await registerCall(body);
+    response = await response.json()
     return NextResponse.json(response)
 }

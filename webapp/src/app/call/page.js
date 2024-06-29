@@ -55,13 +55,13 @@ const WebCallPage = () => {
 					// start call
 					console.log('starting call')
 					const registerCallResponse = await registerCall({
-						agent_id: 'a355652343eab572087abc77adfecb34',
-						from_number: '+15626693964'
+						agent_id: '60ef5bf6a5a29edf0dd8002e5c5d9f06',
 					});
 					console.log('registerCallResponse', registerCallResponse);
 					const call = await sdk.startCall({
-						callId: registerCallResponse.call_id,
-						sampleRate: registerCallResponse.sample_rate,
+						accessToken: registerCallResponse.access_token
+						// callId: registerCallResponse.call_id,
+						// sampleRate: registerCallResponse.sample_rate,
 						// enableUpdate: true, // (Optional) You want to receive the update event such as transcript
 						// customStream: yourStream, // (Optional) You can use your own MediaStream which might use a different mic
 					});
