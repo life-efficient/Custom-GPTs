@@ -11,48 +11,30 @@ const WebCallPage = () => {
 	const [transcript, setTranscript] = useState('');
 	const [error, setError] = useState(null);
 
+	// init sdk
+	const sdk = new RetellWebClient();
+	sdk.on('conversationStarted', () => {
+		setConversationStarted(true);
+		console.log('Conversation started');
+	});
+	sdk.on('conversationEnded', () => {
+		setConversationStarted(false);
+		console.log('Conversation ended');
+	});
+	sdk.on('error', (error) => {
+		setError(error);
+		console.error('An error occurred:', error);
+	});
+	sdk.on('update', (update) => {
+		setTranscript((prevTranscript) => `${prevTranscript}\n${update.transcript}`);
+		console.log('update', update);
+	});
+
 	useEffect(() => {
 		const setup = async () => {
 			console.log('starting call')
-			const sdk = new RetellWebClient();
-
-			const registerCallResponse = await registerCall({
-				agent_id: 'a355652343eab572087abc77adfecb34',
-				from_number: '+1234567890'
-			});
-
-			console.log('registerCallResponse', registerCallResponse);
-
-			sdk.startConversation({
-				callId: registerCallResponse.call_id,
-				sampleRate: registerCallResponse.sample_rate,
-				enableUpdate: true, // (Optional) You want to receive the update event such as transcript
-				customStream: yourStream, // (Optional) You can use your own MediaStream which might use a different mic
-			});
-
-
-			sdk.on('conversationStarted', () => {
-				setConversationStarted(true);
-				console.log('Conversation started');
-			});
-
-			sdk.on('conversationEnded', () => {
-				setConversationStarted(false);
-				console.log('Conversation ended');
-			});
-
-			sdk.on('error', (error) => {
-				setError(error);
-				console.error('An error occurred:', error);
-			});
-
-			sdk.on('update', (update) => {
-				setTranscript((prevTranscript) => `${prevTranscript}\n${update.transcript}`);
-				console.log('update', update);
-			});
-
 			return () => {
-				sdk.stopConversation();
+				sdk.stopCall();
 			};
 		}
 
@@ -67,6 +49,32 @@ const WebCallPage = () => {
 			ref={containerRef}
 			className="w-full max-w-md bg-white shadow-md rounded-lg p-4"
 		>
+			{/* button to start call */}
+			<button
+				onClick={async () => {
+					// start call
+					console.log('starting call')
+					const registerCallResponse = await registerCall({
+						agent_id: 'a355652343eab572087abc77adfecb34',
+						from_number: '+1234567890'
+					});
+					console.log('registerCallResponse', registerCallResponse);
+
+					const call = await sdk.startCall({
+						callId: registerCallResponse.call_id,
+						sampleRate: registerCallResponse.sample_rate,
+						// enableUpdate: true, // (Optional) You want to receive the update event such as transcript
+						// customStream: yourStream, // (Optional) You can use your own MediaStream which might use a different mic
+					});
+
+					console.log('call:', call)
+					// sdk.startCall();
+				}}
+				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+			>
+				Start Call
+			</button>
+			{/* conversation status */}
 			{conversationStarted ? (
 			<div>
 				<p className="text-green-600">Conversation started</p>
