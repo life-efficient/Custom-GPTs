@@ -59,11 +59,9 @@ const WebCallPage = () => {
 						from_number: '+15626693964'
 					});
 					console.log('registerCallResponse', registerCallResponse);
-					scsd
-
 					const call = await sdk.startCall({
 						callId: registerCallResponse.call_id,
-						// sampleRate: registerCallResponse.sample_rate,
+						sampleRate: registerCallResponse.sample_rate,
 						// enableUpdate: true, // (Optional) You want to receive the update event such as transcript
 						// customStream: yourStream, // (Optional) You can use your own MediaStream which might use a different mic
 					});

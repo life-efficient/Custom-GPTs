@@ -16,6 +16,7 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "retell-client-js-sdk": "^2.0.1",
+    "retell-sdk": "^3.18.0",
     "toast": "^0.5.4"
   },
   "devDependencies": {

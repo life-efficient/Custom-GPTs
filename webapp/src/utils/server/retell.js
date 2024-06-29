@@ -6,10 +6,11 @@ export async function registerCall({ agent_id, audio_websocket_protocol, audio_e
     const retell = new Retell({
         apiKey: process.env.RETELL_API_KEY,
     });
+    console.log('agent_id:', agent_id)
     const response = await retell.call.register({
-        agent_id: 'oBeDLoLOeuAbiuaMFXRtDOLriTJ5tSxD',
+        agent_id,
         audio_encoding: 's16le',
-        audio_websocket_protocol: 'twilio',
+        audio_websocket_protocol: 'web',
         sample_rate: 24000,
     });
 
