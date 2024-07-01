@@ -43,7 +43,7 @@ const WebCallPage = () => {
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-		<h1 className="text-2xl font-bold mb-4">Start a Web Call with Retell.ai Agent</h1>
+		<h1 className="text-2xl font-bold mb-4">Join the meeting</h1>
 		<div
 			id="retell-container"
 			ref={containerRef}
@@ -55,7 +55,7 @@ const WebCallPage = () => {
 					// start call
 					console.log('starting call')
 					const registerCallResponse = await registerCall({
-						agent_id: '60ef5bf6a5a29edf0dd8002e5c5d9f06',
+						agent_id: '8378b149da4619bbb3721d45835213d3',
 					});
 					console.log('registerCallResponse', registerCallResponse);
 					const call = await sdk.startCall({
@@ -71,7 +71,7 @@ const WebCallPage = () => {
 				}}
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 			>
-				Start Call
+				Join Call
 			</button>
 			{/* conversation status */}
 			{conversationStarted ? (

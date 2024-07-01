@@ -20,3 +20,18 @@ export async function registerCall(body) {
 
     return response
 }
+
+export async function makeOutboundCall({to_number, agent_id='a355652343eab572087abc77adfecb34'}) {
+    body = {
+        agent_id,
+        from_number: '+15626693964',
+        // audio_websocket_protocol: 'web',
+        // audio_encoding: 's16le',
+        end_call_after_silence_ms: 10000,
+        to_number,
+        direction: 'outbound',
+        metadata: {},
+        retell_llm_dynamic_variables: {},
+        ...body
+    }
+}
