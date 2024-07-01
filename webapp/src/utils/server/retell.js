@@ -21,7 +21,7 @@ export async function registerCall(body) {
     return response
 }
 
-export async function makeOutboundCall({to_number, agent_id='a355652343eab572087abc77adfecb34'}) {
+export function makeOutboundCall({to_number='+447765892392', agent_id='a355652343eab572087abc77adfecb34'}) {
     body = {
         agent_id,
         from_number: '+15626693964',
@@ -34,4 +34,5 @@ export async function makeOutboundCall({to_number, agent_id='a355652343eab572087
         retell_llm_dynamic_variables: {},
         ...body
     }
+    return registerCall(body)
 }
