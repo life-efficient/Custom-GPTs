@@ -29,7 +29,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [aiState] = useAIState()
   
   const urlParameters = useSearchParams() // TODO check working
-  const [agentId, setAgentId] = useState(urlParameters.get('agent_id'))
+  const [agentId, setAgentId] = useState(urlParameters.get('agent_id') || 'default')
   const agentConfig = agents.find(agent => agent.agentId === agentId)
   console.log('agentConfig', agentConfig)
 
