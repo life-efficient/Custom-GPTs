@@ -12,6 +12,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
 import { toast } from 'sonner'
 import { useSearchParams } from 'next/navigation'
+import agents from '@/agents'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[]
@@ -26,11 +27,12 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [input, setInput] = useState('')
   const [messages] = useUIState()
   const [aiState] = useAIState()
-
+  
   const urlParameters = useSearchParams() // TODO check working
-  console.log('urlParameters', urlParameters)
-  const [urlId, setUrlId] = useState(urlParameters.get('agent_id'))
-  console.log('agent', urlId)
+  const [agentId, setAgentId] = useState(urlParameters.get('agent_id'))
+  const agentConfig = agents.find(agent => agent.agent_id === agentId)
+  console.log('agentConfig', agentConfig)
+
 
   const [_, setNewChatId] = useLocalStorage('newChatId', id)
 
