@@ -12,11 +12,6 @@ export default [
                 subheading: 'write a letter',
                 message: "Help me to write a letter"
             },
-            {
-                heading: 'Help me to',
-                subheading: 'invite my friends to a party',
-                message: "Help me to invite my friends to a party"
-            },
         ]
     },
     {

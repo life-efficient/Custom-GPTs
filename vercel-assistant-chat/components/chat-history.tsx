@@ -14,6 +14,20 @@ interface ChatHistoryProps {
 export async function ChatHistory({ userId }: ChatHistoryProps) {
   return (
     <div className="flex flex-col h-full">
+      <div className='flex items-center justify-between p-4'>
+        Your GPTs
+      </div>
+      <div className='mb-2 px-2 flex flex-col gap-2'>
+        <Link href='/' className={cn(buttonVariants({ variant: 'outline' }), 'h-10 w-full justify-start bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10')}>
+          <IconPlus className='-translate-x-2 stroke-2' />
+          New Chat
+        </Link>
+        <Link href='/' className={cn(buttonVariants({ variant: 'outline' }), 'h-10 w-full justify-start bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10')}>
+          <IconPlus className='-translate-x-2 stroke-2' />
+          New Chat
+        </Link>
+
+      </div>
       <div className="flex items-center justify-between p-4">
         <h4 className="text-sm font-medium">Chat History</h4>
       </div>
