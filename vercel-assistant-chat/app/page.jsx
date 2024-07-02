@@ -1,20 +1,22 @@
 import { Inter } from "next/font/google";
 // import "./globals.css";
+import agents from "@/agents"
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const LinkCard = props => {
 	return (
-		<a
+		<Link 
 			href={props.link}
 			className="group 
-			rounded-lg border border-transparent 
-			px-5 py-4 
-			h-full
-			flex flex-col items-start
-			overflow-hidden
-			transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-			target="_blank"
+			bg-red-800
+				rounded-lg border border-transparent 
+				px-5 py-4 
+				h-full
+				flex flex-col items-start
+				overflow-hidden
+				transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
 			rel="noopener noreferrer"
 			>
 			<h2 className={`mb-3 text-2xl font-semibold`}>
@@ -26,14 +28,15 @@ const LinkCard = props => {
 			<p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
 				{props.description}
 			</p>
-		</a>
+		</Link>
 	)
 }
 
 export default function Home() {
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center p-24 relative">
-			<div className="text-3xl md:text-5xl lg:text-6xl font-bold mb- text-center mb-16">
+		<main className="flex min-h-screen flex-col items-center justify-center p-24 relative my-16">
+			{/* <div className="text-3xl md:text-5xl lg:text-6xl font-bold mt-16 text-center mb-16"> */}
+			<div className="text-3xl m-16">
 				Focus on your core competency. Delegate to AI. Build a big business. 
 			</div>
 			{/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
@@ -76,17 +79,19 @@ export default function Home() {
 				priority
 				/> */}
 			</div>
-
-			<div className="grid justify-center items-center mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+			<div className="grid justify-center items-center mb-32 text-center grid-cols:3 lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+				{agents.map(agent => (
+					<LinkCard title={agent.name} description={agent.description} link={`/chat/${agent.id}`} />
+				))}
 				{/* <LinkCard title="Onboarding" description="Learn about how to use the platform's AI assistants to run your business." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/> */}
-				<LinkCard title="Build a thought partner" description="Create a new AI partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
+				{/* <LinkCard title="Build a thought partner" description="Create a new AI partner to brainstorm ideas and debate decision with." link="https://chatgpt.com/g/g-NMUsB4UVe-thought-partner-builder"/>
 				<LinkCard title="Brand Builder Guidelines" description="Create a brand document to capture details about what you do for all other AI employees." link=""/>
 				<LinkCard title="Plan your day" description="Time-block your calendar for today, a habit followed by most successful people." link="https://chatgpt.com/g/g-u26UqZ7I3-calendar-planner"/>
 				<LinkCard title="Fill your content calendar (text)" description="Schedule and automate the next month of text posts for X, LinkedIn, Facebook, etc." link="https://chatgpt.com/g/g-lt4YLgDdF-fill-your-content-calendar-text"/>
 				<LinkCard title="Terms of service creator" description="Publish the legally required terms of service page for your website." link="https://chatgpt.com/g/g-JWYorVe9u-terms-of-service-creator"/>
 				<LinkCard title="Privacy policy creator" description="Publish the legally required privacy policy page for your website." link="https://chatgpt.com/g/g-RyUIJ7hGZ-privacy-policy-creator"/>
 				<LinkCard title="Skool Community Manager" description="Create your online Skool community and schedule posts." link="https://chatgpt.com/g/g-Steg9kjAr-skool-community-manager"/>
-				<LinkCard title="Keep Regular Updates" description="Share regular updates that inform your AI assistants about what's important right now." link="https://chatgpt.com/g/g-cdHNk3kT7-updates-gpt"/>
+				<LinkCard title="Keep Regular Updates" description="Share regular updates that inform your AI assistants about what's important right now." link="https://chatgpt.com/g/g-cdHNk3kT7-updates-gpt"/> */}
 				{/* <LinkCard title="Build an Email Newsletter" description="Schedule a newsletter to go out to your subscribers." /> */}
 				{/* <LinkCard title="Market Research" description="Browse the internet to uncover insights about the industry and your competitors" /> */}
 			</div>
