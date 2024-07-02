@@ -10,6 +10,7 @@ import { Session } from '@/lib/types'
 
 export interface ChatPageProps {
   params: {
+    agentId: string
     chatId: string
   }
 }
@@ -35,7 +36,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   const missingKeys = await getMissingKeys()
 
   if (!session?.user) {
-    redirect(`/login?next=/chat/${params.chatId}`)
+    redirect(`/login?next=/chat/${params.agentId}/${params.chatId}`)
   }
 
   const userId = session.user.id as string
@@ -52,6 +53,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
   return (
     <AI initialAIState={{ chatId: chat.id, messages: chat.messages }}>
       <Chat
+        agentId={params.agentId}
         id={chat.id}
         session={session}
         initialMessages={chat.messages}

@@ -15,13 +15,14 @@ import { useSearchParams } from 'next/navigation'
 import agents from '@/agents'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
+  agentId: string
   initialMessages?: Message[]
   id?: string
   session?: Session
   missingKeys: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({ agentId, id, className, session, missingKeys }: ChatProps) {
   const chatId = id // TODO replace prop name across all files where Chat rendered
   const router = useRouter()
   const path = usePathname()
@@ -29,8 +30,6 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   const [messages] = useUIState()
   const [aiState] = useAIState()
   
-  const urlParameters = useSearchParams() // TODO check working
-  const [agentId, setAgentId] = useState(urlParameters.get('agent_id') || 'default')
   const agentConfig = agents.find(agent => agent.id === agentId)
   console.log('agentConfig', agentConfig)
 

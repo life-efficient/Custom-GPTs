@@ -5,18 +5,24 @@ import { auth } from '@/auth'
 import { Session } from '@/lib/types'
 import { getMissingKeys } from '@/app/actions'
 
-export const metadata = {
-  title: 'Next.js AI Chatbot'
+export interface IndexPageProps {
+  params: {
+    agentId: string
+  }
 }
 
-export default async function IndexPage() {
+export const metadata = {
+  title: 'AI Chatbot'
+}
+
+export default async function IndexPage({ params }: IndexPageProps) {
   const id = nanoid()
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} session={session} missingKeys={missingKeys} />
+      <Chat agentId={params.agentId} id={id} session={session} missingKeys={missingKeys} />
     </AI>
   )
 }
