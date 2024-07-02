@@ -10,6 +10,7 @@ export const metadata = {
 }
 
 export default async function IndexPage() {
+  window.alert('THis is the root page')
   const id = nanoid()
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()

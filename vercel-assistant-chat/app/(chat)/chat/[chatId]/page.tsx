@@ -10,7 +10,7 @@ import { Session } from '@/lib/types'
 
 export interface ChatPageProps {
   params: {
-    id: string
+    chatId: string
   }
 }
 
@@ -23,22 +23,23 @@ export async function generateMetadata({
     return {}
   }
 
-  const chat = await getChat(params.id, session.user.id)
+  const chat = await getChat(params.chatId, session.user.id)
   return {
     title: chat?.title.toString().slice(0, 50) ?? 'Chat'
   }
 }
 
 export default async function ChatPage({ params }: ChatPageProps) {
+  console.log('params:', params)
   const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
   if (!session?.user) {
-    redirect(`/login?next=/chat/${params.id}`)
+    redirect(`/login?next=/chat/${params.chatId}`)
   }
 
   const userId = session.user.id as string
-  const chat = await getChat(params.id, userId)
+  const chat = await getChat(params.chatId, userId)
 
   if (!chat) {
     redirect('/')
