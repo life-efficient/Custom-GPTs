@@ -22,6 +22,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 export function Chat({ id, className, session, missingKeys }: ChatProps) {
+  const chatId = id // TODO replace prop name across all files where Chat rendered
   const router = useRouter()
   const path = usePathname()
   const [input, setInput] = useState('')
@@ -34,15 +35,18 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   console.log('agentConfig', agentConfig)
 
 
-  const [_, setNewChatId] = useLocalStorage('newChatId', id)
+  const [_, setNewChatId] = useLocalStorage('newChatId', chatId)
 
   useEffect(() => {
     if (session?.user) {
-      if (!path.includes('chat') && messages.length === 1) {
-        window.history.replaceState({}, '', `/chat/${id}`)
+      if (!path.includes(`${chatId}`) && messages.length === 1) {
+      // if (!path.includes('chat') && messages.length === 1) { // TODO should I remove the check for not include "chat" now that the chat always renders on /chat not / even if brand new?
+        // update URL if a chat has been created
+        window.history.replaceState({}, '', `/chat/${chatId}`)
+        console.log('updated chat id in URL to refelect new sharable chat creation')
       }
     }
-  }, [id, path, session?.user, messages])
+  }, [chatId, path, session?.user, messages])
 
   useEffect(() => {
     const messagesLength = aiState.messages?.length
@@ -52,7 +56,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
   }, [aiState.messages, router])
 
   useEffect(() => {
-    setNewChatId(id)
+    setNewChatId(chatId)
   })
 
   useEffect(() => {
@@ -81,7 +85,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         <div className="w-full h-px" ref={visibilityRef} />
       </div>
       <ChatPanel
-        id={id}
+        id={chatId}
         input={input}
         setInput={setInput}
         isAtBottom={isAtBottom}
