@@ -61,6 +61,7 @@ If there are events that are designed to overlap, create them as a separate cale
         ]
     },
     {
+        id: 'updates',
         name: 'Updates GPT',
         description: 'Keep track of updates from the user that other GPTs can refer to for context',
         instructions: `
