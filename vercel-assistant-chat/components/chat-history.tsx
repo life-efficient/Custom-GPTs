@@ -37,9 +37,9 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
       <div className="flex items-center justify-between p-4">
         <h4 className="text-sm font-medium">Chat History</h4>
       </div>
-      <div className="mb-2 px-2">
+      {/* <div className="mb-2 px-2">
         <Link
-          href="/"
+          href="/chat"
           className={cn(
             buttonVariants({ variant: 'outline' }),
             'h-10 w-full justify-start bg-zinc-50 px-4 shadow-none transition-colors hover:bg-zinc-200/40 dark:bg-zinc-900 dark:hover:bg-zinc-300/10'
@@ -48,7 +48,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
           <IconPlus className="-translate-x-2 stroke-2" />
           New Chat
         </Link>
-      </div>
+      </div> */}
       <React.Suspense
         fallback={
           <div className="flex flex-col flex-1 px-4 space-y-4 overflow-auto">
