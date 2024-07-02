@@ -16,7 +16,7 @@ const LinkCard = props => {
 				h-full
 				flex flex-col items-start
 				overflow-hidden
-				transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+				transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"	
 			rel="noopener noreferrer"
 			>
 			<h2 className={`mb-3 text-2xl font-semibold`}>
