@@ -484,6 +484,7 @@ async function submitUserMessage(content: string) {
 }
 
 export type AIState = {
+  agentId: string
   chatId: string
   messages: Message[]
 }
@@ -502,6 +503,7 @@ export const AI = createAI<AIState, UIState>({
   initialAIState: { chatId: nanoid(), messages: [] },
   onGetUIState: async () => {
     'use server'
+    console.log('getting UI state')
 
     const session = await auth()
 
@@ -518,20 +520,23 @@ export const AI = createAI<AIState, UIState>({
   },
   onSetAIState: async ({ state }) => {
     'use server'
+    console.log('setting ai state')
+    console.log('state:', state)
 
     const session = await auth()
 
     if (session && session.user) {
-      const { chatId, messages } = state
+      const { agentId, chatId, messages } = state
 
       const createdAt = new Date()
       const userId = session.user.id as string
-      const path = `/chat/${chatId}`
+      const path = `/chat/${agentId}/${chatId}`
 
       const firstMessageContent = messages[0].content as string
       const title = firstMessageContent.substring(0, 100)
 
       const chat: Chat = {
+        agentId,
         id: chatId,
         title,
         userId,
