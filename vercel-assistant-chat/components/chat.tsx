@@ -41,7 +41,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       if (!path.includes(`${chatId}`) && messages.length === 1) {
       // if (!path.includes('chat') && messages.length === 1) { // TODO should I remove the check for not include "chat" now that the chat always renders on /chat not / even if brand new?
         // update URL if a chat has been created
-        window.history.replaceState({}, '', `/chat/${chatId}`)
+        window.history.replaceState({}, '', `/chat/${agentId}/${chatId}`)
         console.log('updated chat id in URL to refelect new sharable chat creation')
       }
     }
