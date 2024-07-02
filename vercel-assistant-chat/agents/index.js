@@ -1,6 +1,6 @@
 export default [
     {
-        agentId: 'default',
+        id: 'default',
         name: 'General Purpose Agent',
         description: "A general purpose assistant to help you with a wide range of topics",
         instructions: `
@@ -15,7 +15,7 @@ export default [
         ]
     },
     {
-        agentId: 'a355652343eab572087abc77adfecb34',
+        id: 'a355652343eab572087abc77adfecb34',
         name: 'Executive Business Study Agent',
         description: "A friendly assistant to help you with your business studies",
         instructions: `

@@ -6,7 +6,7 @@ import { IconArrowRight } from '@/components/ui/icons'
 
 export interface EmptyScreenProps {
   agentConfig: {
-    agentId: string
+    id: string
     name: string
     description: string
     instructions: string
