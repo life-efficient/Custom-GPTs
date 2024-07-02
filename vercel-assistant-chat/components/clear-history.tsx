@@ -62,6 +62,7 @@ export function ClearHistory({
                 }
 
                 setOpen(false)
+                router.push('/chat/default')
               })
             }}
           >
