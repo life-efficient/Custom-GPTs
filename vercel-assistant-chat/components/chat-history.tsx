@@ -22,7 +22,7 @@ export async function ChatHistory({ userId }: ChatHistoryProps) {
         {agents.map((agent) => (
           <Link
             key={agent.id}
-            href={`/chat?agent_id=${agent.id}`}
+            href={`/chat/${agent.id}`}
             
             className={cn(
               buttonVariants({ variant: 'outline' }),
