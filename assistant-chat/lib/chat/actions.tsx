@@ -197,6 +197,8 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
 
           const toolCallId = nanoid()
 
+          // IMPLEMENT TOOL CALL HERE
+
           aiState.done({
             ...aiState.get(),
             messages: [
