@@ -31,7 +31,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
   const [aiState] = useAIState()
   
   const agentConfig = agents.find(agent => agent.id === agentId)
-  console.log('agentConfig', agentConfig)
+  // console.log('agentConfig', agentConfig)
 
 
   const [_, setNewChatId] = useLocalStorage('newChatId', chatId)

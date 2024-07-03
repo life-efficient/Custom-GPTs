@@ -111,6 +111,13 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
   'use server'
 
   console.log('available tools:', agentConfig?.tools)
+  // map name of tool to {name: getTool(name)}
+  const agentTools = (agentConfig.tools || []).reduce((acc, tool) => {
+    acc[tool] = getTool(tool)
+    return acc
+  }
+  , {})
+  console.log('agentTools:', agentTools)
 
   const aiState = getMutableAIState<typeof AI>()
 
@@ -166,7 +173,7 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
       return textNode
     },
     tools: {
-      ...(agentConfig.tools || []).map(getTool),
+      ...agentTools,
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({

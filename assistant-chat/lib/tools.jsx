@@ -1,14 +1,12 @@
 import { z } from 'zod'
 import { nanoid } from 'nanoid'
 import { BotCard } from '@/components/stocks'
-import tools from '@/agents/actions'
-
-const getAllTools = () => {
-}
 
 export default function getTool(toolName='exampleTool'){
+
+    console.log('getting tool', toolName)
     switch (toolName) {
-        case 'exampleTool':
+        default:
             return {
                 description: 'Example tool',
                 parameters: z.object({
