@@ -251,7 +251,8 @@ export default function getTool(toolName='exampleTool'){
             // parameters: z.object({
             //         example: z.string().describe('Example parameter')
             //     }), 
-            parameters = parameters.reduce((acc, param) => {
+            console.log('parameters', parameters)
+            parameters = z.object(parameters.reduce((acc, param) => {
                 switch (param.schema.type) {
                     case 'string':
                     default:
@@ -268,7 +269,7 @@ export default function getTool(toolName='exampleTool'){
                     //         })
                     //       )
                 }
-            }, {})
+            }, {}))
 
             const toolDefinition = {
                 description,
