@@ -35,6 +35,7 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
+import getTool from '@/lib/tools'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -177,61 +178,7 @@ async function submitUserMessage(content: string) {
       return textNode
     },
     tools: {
-      exampleTool: {
-        description: 'Example tool',
-        parameters: z.object({
-          example: z.string().describe('Example parameter')
-        }),
-        generate: async function* ({ example }) {
-          yield (
-            <BotCard>
-              <p>Example tool</p>
-            </BotCard>
-          )
-
-          await sleep(1000)
-
-          const toolCallId = nanoid()
-
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: 'assistant',
-                content: [
-                  {
-                    type: 'tool-call',
-                    toolName: 'exampleTool',
-                    toolCallId,
-                    args: { example }
-                  }
-                ]
-              },
-              {
-                id: nanoid(),
-                role: 'tool',
-                content: [
-                  {
-                    type: 'tool-result',
-                    toolName: 'exampleTool',
-                    toolCallId,
-                    result: example
-                  }
-                ]
-              }
-            ]
-          })
-
-          return (
-            <BotCard>
-              <p>Example tool</p>
-            </BotCard>
-          )
-        }
-        
-      },
+      exampleTool: getTool(),
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
