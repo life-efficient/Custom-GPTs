@@ -112,11 +112,10 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
 
   console.log('available tools:', agentConfig?.tools)
   // map name of tool to {name: getTool(name)}
-  const agentTools = (agentConfig.tools || []).reduce((acc, tool) => {
-    acc[tool] = getTool(tool)
-    return acc
+  let agentTools = {}
+  for (const toolName of (agentConfig.tools || [])) {
+    agentTools = {...agentTools, ...getTool(toolName)}
   }
-  , {})
   console.log('agentTools:', agentTools)
 
   const aiState = getMutableAIState<typeof AI>()

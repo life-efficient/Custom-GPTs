@@ -210,7 +210,7 @@ export default function getTool(toolName='exampleTool'){
     const tool = require(`@/agents/actions/${toolName}/action.js`).default
     console.log('imported tool', tool)
     
-    const tools = []
+    const tools = {}
     
     // const apiHost = tool.servers[0].url
     // get list of different paths available at this API
@@ -281,7 +281,7 @@ export default function getTool(toolName='exampleTool'){
                 }
             }
 
-            tools.push(toolDefinition)
+            tools[methodSchema.operationId] = toolDefinition
         }   
     }
 
