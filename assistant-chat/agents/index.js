@@ -58,6 +58,9 @@ If there are events that are designed to overlap, create them as a separate cale
                 subheading: 'plan my day',
                 message: "Help me to plan my day"
             },
+        ],
+        tools: [
+            'sheets'
         ]
     },
     {
