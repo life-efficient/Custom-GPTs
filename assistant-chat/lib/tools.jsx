@@ -252,6 +252,17 @@ export default function getTool(toolName='exampleTool'){
             //         example: z.string().describe('Example parameter')
             //     }), 
             console.log('parameters', parameters)
+    //      parameters list -> [
+    //       {
+    //         "name": "spreadsheetId",
+    //         "in": "path",
+    //         "required": true,
+    //         "schema": {
+    //           "type": "string"
+    //         },
+    //         "description": "The ID of the spreadsheet to retrieve data from."
+    //       }
+    //     ]
             parameters = z.object(parameters.reduce((acc, param) => {
                 switch (param.schema.type) {
                     case 'string':
