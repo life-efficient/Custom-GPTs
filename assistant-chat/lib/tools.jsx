@@ -239,14 +239,16 @@ export default function getTool(toolName='exampleTool'){
             // if schema uses references
             if (methodSchema.requestBody) {
                 console.log(path, method, 'has requestBody')
-                continue
+                //continue
                 // update the method to use "parameters" instead of "requestBody"
-                const schema = methodSchema.requestBody.content['application/json'].schema['$ref']
+                const schemaRef = methodSchema.requestBody.content['application/json'].schema['$ref']
                 // TODO
-
-                
+                let schema = schemaRef.split('/').pop()
+                let parameters = tool.components.schemas[schema]
+            } else {
+                let parameters = methodSchema.parameters
             }
-            let parameters = methodSchema.parameters
+            
             // turn the params into this format using zod:
             // parameters: z.object({
             //         example: z.string().describe('Example parameter')
