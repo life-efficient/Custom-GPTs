@@ -189,6 +189,7 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
           yield (
             <BotCard>
               Talking to TOOLNAME
+              {/* TODO implement skeleton shimmer */}
             </BotCard>
           )
 
