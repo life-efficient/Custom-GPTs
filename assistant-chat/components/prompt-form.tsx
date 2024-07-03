@@ -17,15 +17,18 @@ import {
 import { useEnterSubmit } from '@/lib/hooks/use-enter-submit'
 import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
+import { AgentConfig } from '@/lib/types'
 
 export function PromptForm({
   input,
   setInput,
-  instructions
+  instructions,
+  agentConfig
 }: {
   input: string
   setInput: (value: string) => void
   instructions: string
+  agentConfig: AgentConfig
 }) {
   const router = useRouter()
   const { formRef, onKeyDown } = useEnterSubmit()
@@ -64,7 +67,7 @@ export function PromptForm({
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(instructions, value)
+        const responseMessage = await submitUserMessage(agentConfig, instructions, value)
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >

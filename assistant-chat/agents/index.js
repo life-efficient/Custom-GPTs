@@ -1,4 +1,4 @@
-export default [
+const agents = [
     // {
     //     id: 'default',
     //     name: 'General Purpose Agent',
@@ -114,3 +114,5 @@ Instead of asking the user for updates on 10 different things at once, get updat
         ]
     }
 ]
+
+export default agents

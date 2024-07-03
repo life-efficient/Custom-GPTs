@@ -11,6 +11,7 @@ import { useAIState, useActions, useUIState } from 'ai/rsc'
 import type { AI } from '@/lib/chat/actions'
 import { nanoid } from 'nanoid'
 import { UserMessage } from './stocks/message'
+import { AgentConfig } from '@/lib/types'
 
 export interface ChatPanelProps {
   id?: string
@@ -20,6 +21,7 @@ export interface ChatPanelProps {
   isAtBottom: boolean
   scrollToBottom: () => void
   instructions: string
+  agentConfig: AgentConfig
   exampleMessages: {
     heading: string
     subheading: string
@@ -35,6 +37,7 @@ export function ChatPanel({
   isAtBottom,
   scrollToBottom,
   instructions,
+  agentConfig,
   exampleMessages=[]
 }: ChatPanelProps) {
   const [aiState] = useAIState()
@@ -68,6 +71,7 @@ export function ChatPanel({
                   ])
 
                   const responseMessage = await submitUserMessage(
+                    agentConfig,
                     instructions,
                     example.message
                   )
@@ -116,7 +120,7 @@ export function ChatPanel({
         ) : null}
 
         <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} instructions={instructions} />
+          <PromptForm input={input} setInput={setInput} instructions={instructions} agentConfig={agentConfig} />
           <FooterText className="hidden sm:block" />
         </div>
       </div>

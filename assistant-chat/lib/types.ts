@@ -1,5 +1,19 @@
 import { CoreMessage } from 'ai'
 
+export interface AgentConfig {
+  id: string
+  name: string
+  description: string
+  instructions: string
+  exampleMessages: {
+    heading: string
+    subheading: string
+    message: string
+  }[]
+  // optional list of tools
+  tools: string[] | undefined
+}
+
 export type Message = CoreMessage & {
   id: string
 }

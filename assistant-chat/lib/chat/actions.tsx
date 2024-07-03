@@ -107,7 +107,7 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(system: string, content: string) {
+async function submitUserMessage(agentConfig, system: string, content: string) {
   'use server'
 
   const aiState = getMutableAIState<typeof AI>()
@@ -164,7 +164,7 @@ async function submitUserMessage(system: string, content: string) {
       return textNode
     },
     tools: {
-      exampleTool: getTool(),
+      exampleTool: getTool('calendar'),
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
