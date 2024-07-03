@@ -89,6 +89,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
         setInput={setInput}
         isAtBottom={isAtBottom}
         scrollToBottom={scrollToBottom}
+        instructions={agentConfig?.instructions || 'Please inform the user that no instructions were found'}
         exampleMessages={agentConfig?.exampleMessages || []}
       />
     </div>
