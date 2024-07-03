@@ -1,10 +1,24 @@
 import { z } from 'zod'
 import { nanoid } from 'nanoid'
 import { BotCard } from '@/components/stocks'
+import { get } from 'http'
+
+const getToolsFromToolName = (toolName) => {
+    // TODO
+    // import tool from agents/actions/toolName
+    console.log('importing tool', toolName)
+    const tool = require(`@/agents/actions/${toolName}/action.js`)
+    console.log('imported tool', tool)
+    // tool.
+
+    // get list of different endpoints available with tool
+}
 
 export default function getTool(toolName='exampleTool'){
 
     console.log('getting tool', toolName)
+    getToolsFromToolName(toolName)
+    console.log('got tool', toolName)
     switch (toolName) {
         default:
             return {

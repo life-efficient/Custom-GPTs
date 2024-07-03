@@ -174,6 +174,66 @@ async function submitUserMessage(agentConfig: AgentConfig, system: string, conte
     },
     tools: {
       ...agentTools,
+      nothingTool: {
+        description: 'Demonstrates tool calling, but does nothing',
+        parameters: z.object({
+          demoParam: z.array(
+            z.object({
+              demoParamObject1: z.string().describe('The first demo parameter'),
+              demoParamObject2: z.number().describe('The second demo parameter'),
+              demoParamObject3: z.number().describe('The third demo parameter')
+            })
+          )
+        }),
+        generate: async function* ({ demoParam }) {
+          yield (
+            <BotCard>
+              Talking to TOOLNAME
+            </BotCard>
+          )
+
+          await sleep(3000)
+
+          const toolCallId = nanoid()
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'nothingTool',
+                    toolCallId,
+                    args: { demoParam }
+                  }
+                ]
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'nothingTool',
+                    toolCallId,
+                    result: 'demo result'
+                  }
+                ]
+              }
+            ]
+          })
+
+          return (
+            <BotCard>
+              Talked to TOOLNAME
+            </BotCard>
+          )
+        }
+      },
     //   listStocks: {
     //     description: 'List three imaginary stocks that are trending.',
     //     parameters: z.object({
@@ -517,8 +577,8 @@ export const AI = createAI<AIState, UIState>({
   },
   onSetAIState: async ({ state }) => {
     'use server'
-    console.log('setting ai state')
-    console.log('state:', state)
+    // console.log('setting ai state')
+    // console.log('state:', state)
 
     const session = await auth()
 
