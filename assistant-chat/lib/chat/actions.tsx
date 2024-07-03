@@ -177,6 +177,9 @@ async function submitUserMessage(content: string) {
       return textNode
     },
     tools: {
+      exampleTool: {
+        
+      },
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
