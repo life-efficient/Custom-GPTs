@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import { nanoid } from 'nanoid'
 import { BotCard } from '@/components/stocks'
+import tools from '@/agents/actions'
+
+const getAllTools = () => {
+}
 
 export default function getTool(toolName='exampleTool'){
     switch (toolName) {
@@ -12,6 +16,7 @@ export default function getTool(toolName='exampleTool'){
                 }),
                 generate: async function* ({ example }) {
                     yield (
+                        // returned immediately to show intermediate loading state
                         <BotCard>
                             <p>Example tool yooo</p>
                         </BotCard>
@@ -52,6 +57,7 @@ export default function getTool(toolName='exampleTool'){
                         ]
                     })
 
+                    // returned after the tool has finished processing
                     return (
                         <BotCard>
                             <p>Example tool yoooo</p>
