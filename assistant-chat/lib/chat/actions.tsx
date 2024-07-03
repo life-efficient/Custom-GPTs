@@ -33,7 +33,7 @@ import {
 } from '@/lib/utils'
 import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
-import { Chat, Message } from '@/lib/types'
+import { AgentConfig, Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
 import getTool from '@/lib/tools'
 
@@ -107,8 +107,10 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(agentConfig, system: string, content: string) {
+async function submitUserMessage(agentConfig: AgentConfig, system: string, content: string) {
   'use server'
+
+  console.log('available tools:', agentConfig?.tools)
 
   const aiState = getMutableAIState<typeof AI>()
 
@@ -164,7 +166,7 @@ async function submitUserMessage(agentConfig, system: string, content: string) {
       return textNode
     },
     tools: {
-      exampleTool: getTool('calendar'),
+      ...(agentConfig.tools || []).map(getTool),
       listStocks: {
         description: 'List three imaginary stocks that are trending.',
         parameters: z.object({
