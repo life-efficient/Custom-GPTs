@@ -46,38 +46,39 @@ import { BotCard } from '@/components/stocks'
     //             }
     //         }
     //     },
-    // "/{spreadsheetId}": {
-    //   "get": {
-    //     "summary": "Read the entire spreadsheet",
-    //     "operationId": "getSpreadsheetValuesEntire",
-    //     "parameters": [
-    //       {
-    //         "name": "spreadsheetId",
-    //         "in": "path",
-    //         "required": true,
-    //         "schema": {
-    //           "type": "string"
-    //         },
-    //         "description": "The ID of the spreadsheet to retrieve data from."
-    //       }
-    //     ],
-    //     "responses": {
-    //       "200": {
-    //         "description": "Success",
-    //         "content": {
-    //           "application/json": {
-    //             "schema": {
-    //               "$ref": "#/components/schemas/ValueRange"
+    //     "/{spreadsheetId}": {
+    //         "get": {
+    //             "summary": "Read the entire spreadsheet",
+    //             "operationId": "getSpreadsheetValuesEntire",
+    //             "parameters": [
+    //             {
+    //                 "name": "spreadsheetId",
+    //                 "in": "path",
+    //                 "required": true,
+    //                 "schema": {
+    //                 "type": "string"
+    //                 },
+    //                 "description": "The ID of the spreadsheet to retrieve data from."
     //             }
-    //           }
+    //             ],
+    //             "responses": {
+    //             "200": {
+    //                 "description": "Success",
+    //                 "content": {
+    //                 "application/json": {
+    //                     "schema": {
+    //                     "$ref": "#/components/schemas/ValueRange"
+    //                     }
+    //                 }
+    //                 }
+    //             },
+    //             "400": {
+    //                 "description": "Bad Request"
+    //             }
+    //             }
     //         }
-    //       },
-    //       "400": {
-    //         "description": "Bad Request"
-    //       }
-    //     }
-    //   }
-    // },
+    //     },
+    // }
 // "components": {
 //     "schemas": {
 //         "Spreadsheet": {
@@ -253,6 +254,8 @@ export default function getTool(toolName='exampleTool'){
             const schemaRef = methodSchema.requestBody?.content['application/json'].schema['$ref']
             let schema = schemaRef?.split('/').pop()
             let parameters = schema ? tool.components.schemas[schema] : methodSchema.parameters
+            // PROBLEM: the requestBody schemas sometimes have a decription key and sometimes don't
+            // Actually only one of them has a description - ValueRange
 
 
             // turn the params into this format using zod:
@@ -275,7 +278,7 @@ export default function getTool(toolName='exampleTool'){
                 switch (param.schema.type) {
                     case 'string':
                     default:
-                        return acc[param.name] = z.string().describe(param.description)
+                        return acc[param.name] = z.string().describe(param.description) // PROBLEM: not all schemas have a description.
                         console.log('unsupported type', param.schema.type)
                         // continue
                 // TODO implement other case for non-strings
@@ -291,67 +294,9 @@ export default function getTool(toolName='exampleTool'){
             }, {}))
 
             const toolDefinition = {
-                description,
-                parameters: z.object({
-            //       stocks: z.array(
-            //         z.object({
-            //           symbol: z.string().describe('The symbol of the stock'),
-            //           price: z.number().describe('The price of the stock'),
-            //           delta: z.number().describe('The change in price of the stock')
-            //         })
-            //       )
-                }),
-                generate: async function* ({ p}) => {
-                    yield (
-                        <BotCard>
-                        Talking to TOOLNAME
-                        {/* TODO implement skeleton shimmer */}
-                        </BotCard>
-                    )
-
-                    await sleep(3000)
-
-                    const toolCallId = nanoid()
-
-                    // IMPLEMENT TOOL CALL HERE
-
-                    aiState.done({
-                        ...aiState.get(),
-                        messages: [
-                        ...aiState.get().messages,
-                        {
-                            id: nanoid(),
-                            role: 'assistant',
-                            content: [
-                            {
-                                type: 'tool-call',
-                                toolName: 'nothingTool',
-                                toolCallId,
-                                args: { demoParam }
-                            }
-                            ]
-                        },
-                        {
-                            id: nanoid(),
-                            role: 'tool',
-                            content: [
-                            {
-                                type: 'tool-result',
-                                toolName: 'nothingTool',
-                                toolCallId,
-                                result: 'demo result'
-                            }
-                            ]
-                        }
-                        ]
-                    })
-
-                    return (
-                        <BotCard>
-                        Talked to TOOLNAME
-                        </BotCard>
-                    )
-                }
+                description: methodSchema.requestBody ? null : methodSchema.description, // CHECK: This should be either parameters.name.description or methodSchema.summary
+                parameters: ,
+                generate: 
             }
 
             tools[methodSchema.operationId] = toolDefinition
