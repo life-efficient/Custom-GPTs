@@ -78,128 +78,127 @@ import { BotCard } from '@/components/stocks'
     //     }
     //   }
     // },
-//      "components": {
+// "components": {
 //     "schemas": {
-//       "Spreadsheet": {
-//         "type": "object",
-//         "properties": {
-//           "properties": {
+//         "Spreadsheet": {
 //             "type": "object",
 //             "properties": {
-//               "title": {
-//                 "type": "string"
-//               },
-//               "locale": {
-//                 "type": "string"
-//               },
-//               "autoRecalc": {
-//                 "type": "string"
-//               },
-//               "timeZone": {
-//                 "type": "string"
-//               }
-//             }
-//           },
-//           "sheets": {
-//             "type": "array",
-//             "items": {
-//               "type": "object",
-//               "properties": {
+//             "properties": {
+//                 "type": "object",
 //                 "properties": {
-//                   "type": "object",
-//                   "properties": {
-//                     "title": {
-//                       "type": "string"
-//                     },
-//                     "index": {
-//                       "type": "integer"
-//                     },
-//                     "sheetType": {
-//                       "type": "string"
-//                     },
-//                     "gridProperties": {
-//                       "type": "object",
-//                       "properties": {
-//                         "rowCount": {
-//                           "type": "integer"
-//                         },
-//                         "columnCount": {
-//                           "type": "integer"
-//                         }
-//                       }
-//                     }
-//                   }
+//                 "title": {
+//                     "type": "string"
+//                 },
+//                 "locale": {
+//                     "type": "string"
+//                 },
+//                 "autoRecalc": {
+//                     "type": "string"
+//                 },
+//                 "timeZone": {
+//                     "type": "string"
 //                 }
-//               }
-//             }
-//           }
-//         }
-//       },
-//       "ValueRange": {
-//         "type": "object",
-//         "properties": {
-//           "values": {
-//             "type": "array",
-//             "items": {
-//               "type": "array",
-//               "items": {
-//                 "type": "string"
-//               }
+//                 }
 //             },
-//             "description": "The new data to be placed in the range."
-//           }
-//         }
-//       },
-//       "UpdateValuesResponse": {
-//         "type": "object",
-//         "properties": {
-//           "spreadsheetId": {
-//             "type": "string"
-//           },
-//           "updatedRange": {
-//             "type": "string"
-//           },
-//           "updatedRows": {
-//             "type": "integer"
-//           },
-//           "updatedColumns": {
-//             "type": "integer"
-//           },
-//           "updatedCells": {
-//             "type": "integer"
-//           }
-//         }
-//       },
-//       "AppendValuesResponse": {
-//         "type": "object",
-//         "properties": {
-//           "spreadsheetId": {
-//             "type": "string"
-//           },
-//           "tableRange": {
-//             "type": "string"
-//           },
-//           "updates": {
+//             "sheets": {
+//                 "type": "array",
+//                 "items": {
+//                 "type": "object",
+//                 "properties": {
+//                     "properties": {
+//                     "type": "object",
+//                     "properties": {
+//                         "title": {
+//                         "type": "string"
+//                         },
+//                         "index": {
+//                         "type": "integer"
+//                         },
+//                         "sheetType": {
+//                         "type": "string"
+//                         },
+//                         "gridProperties": {
+//                         "type": "object",
+//                         "properties": {
+//                             "rowCount": {
+//                             "type": "integer"
+//                             },
+//                             "columnCount": {
+//                             "type": "integer"
+//                             }
+//                         }
+//                         }
+//                     }
+//                     }
+//                 }
+//                 }
+//             }
+//             }
+//         },
+//         "ValueRange": {
 //             "type": "object",
 //             "properties": {
-//               "updatedRange": {
-//                 "type": "string"
-//               },
-//               "updatedRows": {
-//                 "type": "integer"
-//               },
-//               "updatedColumns": {
-//                 "type": "integer"
-//               },
-//               "updatedCells": {
-//                 "type": "integer"
-//               }
+//             "values": {
+//                 "type": "array",
+//                 "items": {
+//                 "type": "array",
+//                 "items": {
+//                     "type": "string"
+//                 }
+//                 },
+//                 "description": "The new data to be placed in the range."
 //             }
-//           }
+//             }
+//         },
+//         "UpdateValuesResponse": {
+//             "type": "object",
+//             "properties": {
+//             "spreadsheetId": {
+//                 "type": "string"
+//             },
+//             "updatedRange": {
+//                 "type": "string"
+//             },
+//             "updatedRows": {
+//                 "type": "integer"
+//             },
+//             "updatedColumns": {
+//                 "type": "integer"
+//             },
+//             "updatedCells": {
+//                 "type": "integer"
+//             }
+//             }
+//         },
+//         "AppendValuesResponse": {
+//             "type": "object",
+//             "properties": {
+//                 "spreadsheetId": {
+//                     "type": "string"
+//                 },
+//                 "tableRange": {
+//                     "type": "string"
+//                 },
+//                 "updates": {
+//                     "type": "object",
+//                     "properties": {
+//                         "updatedRange": {
+//                             "type": "string"
+//                         },
+//                         "updatedRows": {
+//                             "type": "integer"
+//                         },
+//                         "updatedColumns": {
+//                             "type": "integer"
+//                         },
+//                         "updatedCells": {
+//                             "type": "integer"
+//                         }
+//                     }
+//                 }
+//             }
 //         }
-//       }
 //     }
-//   }
 // }
 
 export default function getTool(toolName='exampleTool'){
@@ -293,12 +292,65 @@ export default function getTool(toolName='exampleTool'){
 
             const toolDefinition = {
                 description,
-                parameters,
-                generate: () => {
-                    //  const aiState = getMutableAIState<typeof AI>()
-                    // TODO update aiState as below
-                    // TODO implement backend tool call if necessary as described below
-                    return "Hello world"
+                parameters: z.object({
+            //       stocks: z.array(
+            //         z.object({
+            //           symbol: z.string().describe('The symbol of the stock'),
+            //           price: z.number().describe('The price of the stock'),
+            //           delta: z.number().describe('The change in price of the stock')
+            //         })
+            //       )
+                }),
+                generate: async function* ({ p}) => {
+                    yield (
+                        <BotCard>
+                        Talking to TOOLNAME
+                        {/* TODO implement skeleton shimmer */}
+                        </BotCard>
+                    )
+
+                    await sleep(3000)
+
+                    const toolCallId = nanoid()
+
+                    // IMPLEMENT TOOL CALL HERE
+
+                    aiState.done({
+                        ...aiState.get(),
+                        messages: [
+                        ...aiState.get().messages,
+                        {
+                            id: nanoid(),
+                            role: 'assistant',
+                            content: [
+                            {
+                                type: 'tool-call',
+                                toolName: 'nothingTool',
+                                toolCallId,
+                                args: { demoParam }
+                            }
+                            ]
+                        },
+                        {
+                            id: nanoid(),
+                            role: 'tool',
+                            content: [
+                            {
+                                type: 'tool-result',
+                                toolName: 'nothingTool',
+                                toolCallId,
+                                result: 'demo result'
+                            }
+                            ]
+                        }
+                        ]
+                    })
+
+                    return (
+                        <BotCard>
+                        Talked to TOOLNAME
+                        </BotCard>
+                    )
                 }
             }
 
