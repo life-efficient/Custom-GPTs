@@ -104,34 +104,34 @@ import { BotCard } from '@/components/stocks'
 //                 "sheets": {
 //                     "type": "array",
 //                     "items": {
-//                     "type": "object",
-//                     "properties": {
-//                         "properties": {
-//                         "type": "object",
-//                         "properties": {
-//                             "title": {
-//                             "type": "string"
-//                             },
-//                             "index": {
-//                             "type": "integer"
-//                             },
-//                             "sheetType": {
-//                             "type": "string"
-//                             },
-//                             "gridProperties": {
-//                             "type": "object",
-//                             "properties": {
-//                                 "rowCount": {
-//                                 "type": "integer"
-//                                 },
-//                                 "columnCount": {
-//                                 "type": "integer"
-//                                 }
-//                             }
-//                             }
-//                         }
-//                         }
-//                     }
+    //                     "type": "object",
+    //                     "properties": {
+    //                         "properties": {
+        //                         "type": "object",
+        //                         "properties": {
+        //                             "title": {
+        //                                 "type": "string"
+        //                             },
+        //                             "index": {
+        //                                  "type": "integer"
+        //                             },
+        //                             "sheetType": {
+        //                                  "type": "string"
+        //                             },
+        //                             "gridProperties": {
+            //                              "type": "object",
+            //                             "properties": {
+            //                                 "rowCount": {
+            //                                     "type": "integer"
+            //                                 },
+            //                                 "columnCount": {
+            //                                     "type": "integer"
+            //                                 }
+            //                             }
+        //                             }
+        //                         }
+    //                         }
+    //                     }
 //                     }
 //                 }
 //             }
@@ -155,21 +155,21 @@ import { BotCard } from '@/components/stocks'
 //         "UpdateValuesResponse": {
 //             "type": "object",
 //             "properties": {
-//             "spreadsheetId": {
-//                 "type": "string"
-//             },
-//             "updatedRange": {
-//                 "type": "string"
-//             },
-//             "updatedRows": {
-//                 "type": "integer"
-//             },
-//             "updatedColumns": {
-//                 "type": "integer"
-//             },
-//             "updatedCells": {
-//                 "type": "integer"
-//             }
+    //             "spreadsheetId": {
+    //                 "type": "string"
+    //             },
+    //             "updatedRange": {
+    //                 "type": "string"
+    //             },
+    //             "updatedRows": {
+    //                 "type": "integer"
+    //             },
+    //             "updatedColumns": {
+    //                 "type": "integer"
+    //             },
+    //             "updatedCells": {
+    //                 "type": "integer"
+    //             }
 //             }
 //         },
 //         "AppendValuesResponse": {
@@ -325,7 +325,25 @@ export default function getTool(toolName='exampleTool'){
             })
 
             Spreadsheet: z.object({
-
+                properties: z.object({
+                    title: z.string().describe('The title of the spreadsheet'),
+                    locale: z.string().describe('The locale of the spreadsheet'),
+                    autoRecalc: z.string().describe('The autoRecalc of the spreadsheet'),
+                    timeZone: z.string().describe('The timeZone of the spreadsheet')
+                }),
+                sheets: z.array(
+                    z.object({
+                        properties: z.object({
+                            title: z.string().describe('The title of the sheet'),
+                            index: z.number().describe('The index of the sheet'),
+                            sheetType: z.string().describe('The type of the sheet'),
+                            gridProperties: z.object({
+                                rowCount: z.number().describe('The number of rows in the grid'),
+                                columnCount: z.number().describe('The number of columns in the grid')
+                            })
+                        })
+                    })
+                )
             })
 
 
