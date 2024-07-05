@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { nanoid } from 'nanoid'
-import { BotCard } from '@/components/stocks'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
     // "openapi": "3.1.0",
@@ -275,6 +274,13 @@ export default function getTool(toolName='exampleTool'){
                 description,
                 parameters,
                 generate: () => {
+
+                    // TODO check for access token in localstorage
+                    // TODO refresh access token if necessary
+                    // TODO get access token from localstorage
+                    // TODO implement api request
+                    
+
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     // TODO implement backend tool call if necessary as described below
@@ -372,7 +378,42 @@ export default function getTool(toolName='exampleTool'){
         // }
 }
 
+async function makeToolApiRequest(accessToken: string, endpoint: string, payload: any = null, method: string = 'GET') {
+    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+    
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    
+    const options: RequestInit = {
+        method,
+        headers
+    };
+    
+    if (payload) {
+        options.body = JSON.stringify(payload);
+    }
 
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Unauthorized: Invalid or expired token.');
+            }
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Failed to make API request:', error);
+        return null;
+    }
+}
 
 
 

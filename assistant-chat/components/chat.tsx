@@ -118,7 +118,7 @@ const OAuthConsentScreenRedirct = () => {
     );
 };
 
-async function makeApiRequest(accessToken: string, endpoint: string, payload: any = null, method: string = 'GET') {
+async function makeToolApiRequest(accessToken: string, endpoint: string, payload: any = null, method: string = 'GET') {
     const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
     
     const headers = {
@@ -166,7 +166,7 @@ const GoogleDriveFilesComponent: React.FC = () => {
         }
 
         const endpoint = 'files';
-        const data = await makeApiRequest(accessToken, endpoint);
+        const data = await makeToolApiRequest(accessToken, endpoint);
         
         if (data && data.files) {
             console.log('Files:', data.files);
