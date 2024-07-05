@@ -118,36 +118,58 @@ const OAuthConsentScreenRedirct = () => {
     );
 };
 
+async function makeApiRequest(accessToken: string, endpoint: string, payload: any = null, method: string = 'GET') {
+    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+    
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    
+    const options: RequestInit = {
+        method,
+        headers
+    };
+    
+    if (payload) {
+        options.body = JSON.stringify(payload);
+    }
 
-import React from 'react';
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Unauthorized: Invalid or expired token.');
+            }
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
 
-interface GoogleDriveFilesComponentProps {
-    accessToken: string;
+        const data = await response.json();
+        console.log('Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Failed to make API request:', error);
+        return null;
+    }
 }
 
-const GoogleDriveFilesComponent: React.FC<GoogleDriveFilesComponentProps> = () => {
-  
+const GoogleDriveFilesComponent: React.FC = () => {
+    const accessToken = localStorage.getItem('access_token');
+    
     // Function to list files from Google Drive
     const listGoogleDriveFiles = async () => {
-        const url = 'https://www.googleapis.com/drive/v3/files';
-        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            console.error('No access token found in localStorage.');
+            return;
+        }
+
+        const endpoint = 'files';
+        const data = await makeApiRequest(accessToken, endpoint);
         
-        const headers = {
-            'Authorization': `Bearer ${accessToken}`,
-            'Accept': 'application/json'
-        };
-        
-        try {
-            const response = await fetch(url, { headers });
-            
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} ${response.statusText}`);
-            }
-            
-            const data = await response.json();
+        if (data && data.files) {
             console.log('Files:', data.files);
-        } catch (error) {
-            console.error('Failed to list files:', error);
         }
     };
 
