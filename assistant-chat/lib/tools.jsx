@@ -83,7 +83,6 @@ import { BotCard } from '@/components/stocks'
 //     "schemas": {
 //         "Spreadsheet": {
 //             "type": "object",
-//             "description": "A Google Sheets spreadsheet",
 //             "properties": {
 //                 "properties": {
 //                     "type": "object",
@@ -314,16 +313,28 @@ export default function getTool(toolName='exampleTool'){
                 // if object do thing
                     // for each type rerun value on return 
                 // if array do thing
-
             }
 
-            ValueRange: z.object({
+            // AARRGHHHHH EXAMPLE
+            ValueRange: z.object({ // this oen had type object.
                 values: z.array(
                     z.array(
                         z.string().describe(values.items.items.decription)
                     )
                 ).describe(values.description)
             })
+
+            Spreadsheet: z.object({
+
+            })
+
+
+            // SIMPLE EXAMPLE
+            getSpreadsheetValuesrange: z.object({ // this one doesn't
+                spreadsheetId: z.string().describe('The ID of the spreadsheet to retrieve data from.'),
+                range: z.string().describe('The range of cells to retrieve data from'),
+            })
+
 
             const toolDefinition = {
                 description: methodSchema.summary, // CHECK: this should be right
