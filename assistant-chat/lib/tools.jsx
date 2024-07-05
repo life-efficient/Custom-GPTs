@@ -301,7 +301,7 @@ export default function getTool(toolName='exampleTool'){
                 console.log(param)
             }
 
-            const someSortOfRecursiveFunction = (params) => {
+            const someSortOfRecursiveFunction = (acc, params) => {
                 // if string do string
                     // exit condition
                 // if number do number
@@ -315,43 +315,43 @@ export default function getTool(toolName='exampleTool'){
                 // if array do thing
             }
 
-            // AARRGHHHHH EXAMPLE
-            ValueRange: z.object({ // this oen had type object.
-                values: z.array(
-                    z.array(
-                        z.string().describe(values.items.items.decription)
-                    )
-                ).describe(values.description)
-            })
+            // // AARRGHHHHH EXAMPLE
+            // ValueRange: z.object({ // this oen had type object.
+            //     values: z.array(
+            //         z.array(
+            //             z.string().describe(values.items.items.decription)
+            //         )
+            //     ).describe(values.description)
+            // })
 
-            Spreadsheet: z.object({
-                properties: z.object({
-                    title: z.string().describe('The title of the spreadsheet'),
-                    locale: z.string().describe('The locale of the spreadsheet'),
-                    autoRecalc: z.string().describe('The autoRecalc of the spreadsheet'),
-                    timeZone: z.string().describe('The timeZone of the spreadsheet')
-                }),
-                sheets: z.array(
-                    z.object({
-                        properties: z.object({
-                            title: z.string().describe('The title of the sheet'),
-                            index: z.number().describe('The index of the sheet'),
-                            sheetType: z.string().describe('The type of the sheet'),
-                            gridProperties: z.object({
-                                rowCount: z.number().describe('The number of rows in the grid'),
-                                columnCount: z.number().describe('The number of columns in the grid')
-                            })
-                        })
-                    })
-                )
-            })
+            // Spreadsheet: z.object({
+            //     properties: z.object({
+            //         title: z.string().describe('The title of the spreadsheet'),
+            //         locale: z.string().describe('The locale of the spreadsheet'),
+            //         autoRecalc: z.string().describe('The autoRecalc of the spreadsheet'),
+            //         timeZone: z.string().describe('The timeZone of the spreadsheet')
+            //     }),
+            //     sheets: z.array(
+            //         z.object({
+            //             properties: z.object({
+            //                 title: z.string().describe('The title of the sheet'),
+            //                 index: z.number().describe('The index of the sheet'),
+            //                 sheetType: z.string().describe('The type of the sheet'),
+            //                 gridProperties: z.object({
+            //                     rowCount: z.number().describe('The number of rows in the grid'),
+            //                     columnCount: z.number().describe('The number of columns in the grid')
+            //                 })
+            //             })
+            //         })
+            //     )
+            // })
 
 
-            // SIMPLE EXAMPLE
-            getSpreadsheetValuesrange: z.object({ // this one doesn't
-                spreadsheetId: z.string().describe('The ID of the spreadsheet to retrieve data from.'),
-                range: z.string().describe('The range of cells to retrieve data from'),
-            })
+            // // SIMPLE EXAMPLE
+            // getSpreadsheetValuesrange: z.object({ // this one doesn't
+            //     spreadsheetId: z.string().describe('The ID of the spreadsheet to retrieve data from.'),
+            //     range: z.string().describe('The range of cells to retrieve data from'),
+            // })
 
 
             const toolDefinition = {
