@@ -89,6 +89,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       </div>
       {/* <SignIn /> */}
       <OAuthConsentScreenRedirct/>
+      {localStorage.getItem('access_token') && <div>Access token stored {localStorage.getItem('access_token')}</div>}
       <ChatPanel
         id={chatId}
         input={input}
