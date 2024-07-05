@@ -379,7 +379,7 @@ export default function getTool(toolName='exampleTool'){
         // }
 }
 
-async function makeToolApiRequest(accessToken: string, endpoint: string, payload: any = null, method: string = 'GET') {
+async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
     const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
     
     const headers = {
@@ -388,7 +388,7 @@ async function makeToolApiRequest(accessToken: string, endpoint: string, payload
         'Content-Type': 'application/json'
     };
     
-    const options: RequestInit = {
+    const options = {
         method,
         headers
     };
