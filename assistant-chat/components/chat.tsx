@@ -89,7 +89,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       </div>
       {/* <SignIn /> */}
       <OAuthConsentScreenRedirct/>
-      {localStorage.getItem('access_token') && <div>Access token stored {localStorage.getItem('access_token')}</div>}
+      <GoogleDriveFilesComponent />
       <ChatPanel
         id={chatId}
         input={input}
@@ -117,3 +117,45 @@ const OAuthConsentScreenRedirct = () => {
         </a>
     );
 };
+
+
+import React from 'react';
+
+interface GoogleDriveFilesComponentProps {
+    accessToken: string;
+}
+
+const GoogleDriveFilesComponent: React.FC<GoogleDriveFilesComponentProps> = () => {
+  
+    // Function to list files from Google Drive
+    const listGoogleDriveFiles = async () => {
+        const url = 'https://www.googleapis.com/drive/v3/files';
+        const accessToken = localStorage.getItem('access_token');
+        
+        const headers = {
+            'Authorization': `Bearer ${accessToken}`,
+            'Accept': 'application/json'
+        };
+        
+        try {
+            const response = await fetch(url, { headers });
+            
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Files:', data.files);
+        } catch (error) {
+            console.error('Failed to list files:', error);
+        }
+    };
+
+    return (
+        <div>
+            <button onClick={listGoogleDriveFiles}>List Google Drive Files</button>
+        </div>
+    );
+};
+
+export default GoogleDriveFilesComponent;
