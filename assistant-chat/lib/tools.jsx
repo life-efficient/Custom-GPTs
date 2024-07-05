@@ -211,7 +211,7 @@ export default function getTool(toolName='exampleTool'){
     
     const tools = {}
     
-    // const apiHost = tool.servers[0].url
+    const apiHost = tool.servers[0].url
     // get list of different paths available at this API
     for (const path in tool.paths) {
     // tool.paths.map(path => {
@@ -221,7 +221,7 @@ export default function getTool(toolName='exampleTool'){
 
         console.log('path', path)
 
-        // const endpoint = apiHost + path
+        const endpoint = apiHost + path
 
         // get list of different methods available at this endpoint
         for (const method in tool.paths[path]) {
@@ -273,17 +273,18 @@ export default function getTool(toolName='exampleTool'){
             const toolDefinition = {
                 description,
                 parameters,
-                generate: () => {
+                generate: async (payloadGeneratedByModel) => {
 
+                    // TODO get app-relevant access token... this one only works for the latest retrieved access token
+                    const accessToken = localStorage.getItem('access_token')
                     // TODO check for access token in localstorage
-                    // TODO refresh access token if necessary
-                    // TODO get access token from localstorage
-                    // TODO implement api request
-                    
+                    // TODO refresh access token if expired
+
+                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
 
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
-                    // TODO implement backend tool call if necessary as described below
+                    
                     return "Hello world"
                 }
             }
