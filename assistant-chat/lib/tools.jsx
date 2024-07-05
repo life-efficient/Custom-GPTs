@@ -51,15 +51,15 @@ import { BotCard } from '@/components/stocks'
     //             "summary": "Read the entire spreadsheet",
     //             "operationId": "getSpreadsheetValuesEntire",
     //             "parameters": [
-    //             {
-    //                 "name": "spreadsheetId",
-    //                 "in": "path",
-    //                 "required": true,
-    //                 "schema": {
-    //                 "type": "string"
-    //                 },
-    //                 "description": "The ID of the spreadsheet to retrieve data from."
-    //             }
+        //             {
+        //                 "name": "spreadsheetId",
+        //                 "in": "path",
+        //                 "required": true,
+        //                 "schema": {
+        //                     "type": "string"
+        //                 },
+        //                 "description": "The ID of the spreadsheet to retrieve data from."
+        //             }
     //             ],
     //             "responses": {
     //             "200": {
@@ -83,72 +83,74 @@ import { BotCard } from '@/components/stocks'
 //     "schemas": {
 //         "Spreadsheet": {
 //             "type": "object",
+//             "description": "A Google Sheets spreadsheet",
 //             "properties": {
-//             "properties": {
-//                 "type": "object",
 //                 "properties": {
-//                 "title": {
-//                     "type": "string"
-//                 },
-//                 "locale": {
-//                     "type": "string"
-//                 },
-//                 "autoRecalc": {
-//                     "type": "string"
-//                 },
-//                 "timeZone": {
-//                     "type": "string"
-//                 }
-//                 }
-//             },
-//             "sheets": {
-//                 "type": "array",
-//                 "items": {
-//                 "type": "object",
-//                 "properties": {
-//                     "properties": {
 //                     "type": "object",
 //                     "properties": {
 //                         "title": {
-//                         "type": "string"
+//                             "type": "string"
 //                         },
-//                         "index": {
-//                         "type": "integer"
+//                         "locale": {
+//                             "type": "string"
 //                         },
-//                         "sheetType": {
-//                         "type": "string"
+//                         "autoRecalc": {
+//                             "type": "string"
 //                         },
-//                         "gridProperties": {
+//                         "timeZone": {
+//                             "type": "string"
+//                         }
+//                     }
+//                 },
+//                 "sheets": {
+//                     "type": "array",
+//                     "items": {
+//                     "type": "object",
+//                     "properties": {
+//                         "properties": {
 //                         "type": "object",
 //                         "properties": {
-//                             "rowCount": {
+//                             "title": {
+//                             "type": "string"
+//                             },
+//                             "index": {
 //                             "type": "integer"
 //                             },
-//                             "columnCount": {
-//                             "type": "integer"
+//                             "sheetType": {
+//                             "type": "string"
+//                             },
+//                             "gridProperties": {
+//                             "type": "object",
+//                             "properties": {
+//                                 "rowCount": {
+//                                 "type": "integer"
+//                                 },
+//                                 "columnCount": {
+//                                 "type": "integer"
+//                                 }
+//                             }
 //                             }
 //                         }
 //                         }
 //                     }
 //                     }
 //                 }
-//                 }
-//             }
 //             }
 //         },
 //         "ValueRange": {
 //             "type": "object",
 //             "properties": {
-//             "values": {
-//                 "type": "array",
-//                 "items": {
-//                 "type": "array",
-//                 "items": {
-//                     "type": "string"
-//                 }
-//                 },
-//                 "description": "The new data to be placed in the range."
-//             }
+    //             "values": {
+    //                 "type": "array",
+    //                 "items": {
+        //                 "type": "array",
+        //                 "items": {
+        //                     "type": "string"
+        //                     "description": "insert description."
+        //                 }
+    //                 },
+    //                 "description": "The new data to be placed in the range."
+    //             }
 //             }
 //         },
 //         "UpdateValuesResponse": {
@@ -239,23 +241,26 @@ export default function getTool(toolName='exampleTool'){
             // if schema uses references
 
             //OLD IMPLEMENTATION
-            // if (methodSchema.requestBody) {
-            //     console.log(path, method, 'has requestBody')
-            //     //continue
-            //     // update the method to use "parameters" instead of "requestBody"
-            //     const schemaRef = methodSchema.requestBody.content['application/json'].schema['$ref']
-            //     // TODO
-            //     let schema = schemaRef.split('/').pop()
-            //     let parameters = tool.components.schemas[schema]
-            // } else {
-            //     let parameters = methodSchema.parameters
-            // }
 
-            const schemaRef = methodSchema.requestBody?.content['application/json'].schema['$ref']
-            let schema = schemaRef?.split('/').pop()
-            let parameters = schema ? tool.components.schemas[schema] : methodSchema.parameters
-            // PROBLEM: the requestBody schemas sometimes have a decription key and sometimes don't
-            // Actually only one of them has a description - ValueRange
+            let parameters // may need to add some typecript types here
+
+            if (methodSchema.requestBody) {
+                continue
+                console.log(path, method, 'has requestBody')
+                //continue
+                // update the method to use "parameters" instead of "requestBody"
+                const schemaRef = methodSchema.requestBody.content['application/json'].schema['$ref']
+                // TODO
+                let schema = schemaRef.split('/').pop()
+                parameters = tool.components.schemas[schema]
+
+            } else {
+                parameters = methodSchema.parameters
+            }
+
+            // const schemaRef = methodSchema.requestBody?.content['application/json'].schema['$ref']
+            // let schema = schemaRef?.split('/').pop()
+            // let parameters = schema ? tool.components.schemas[schema] : methodSchema.parameters
 
 
             // turn the params into this format using zod:
@@ -278,25 +283,52 @@ export default function getTool(toolName='exampleTool'){
                 switch (param.schema.type) {
                     case 'string':
                     default:
-                        return acc[param.name] = z.string().describe(param.description) // PROBLEM: not all schemas have a description.
+                        return acc[param.name] = z.string().describe(param.description) 
                         console.log('unsupported type', param.schema.type)
                         // continue
                 // TODO implement other case for non-strings
                 // e.g
-                    //       stocks: z.array(
-                    //         z.object({
-                    //           symbol: z.string().describe('The symbol of the stock'),
-                    //           price: z.number().describe('The price of the stock'),
-                    //           delta: z.number().describe('The change in price of the stock')
-                    //         })
-                    //       )
+                //       stocks: z.array(
+                //         z.object({
+                //           symbol: z.string().describe('The symbol of the stock'),
+                //           price: z.number().describe('The price of the stock'),
+                //           delta: z.number().describe('The change in price of the stock')
+                //         })
+                //       )
                 }
             }, {}))
 
+            for (const param in parameters) {
+                console.log(param)
+            }
+
+            const someSortOfRecursiveFunction = (params) => {
+                // if string do string
+                    // exit condition
+                // if number do number
+                    // exit condition
+                // if boolean do boolean
+                    // exit condition
+                
+                //check for param type
+                // if object do thing
+                    // for each type rerun value on return 
+                // if array do thing
+
+            }
+
+            ValueRange: z.object({
+                values: z.array(
+                    z.array(
+                        z.string().describe(values.items.items.decription)
+                    )
+                ).describe(values.description)
+            })
+
             const toolDefinition = {
-                description: methodSchema.requestBody ? null : methodSchema.description, // CHECK: This should be either parameters.name.description or methodSchema.summary
-                parameters: ,
-                generate: 
+                description: methodSchema.summary, // CHECK: this should be right
+                parameters, //methodSchema.requestBody ? parameters.properties, // CHECK: THIS IS WHERE requestBody stuff should be used. 
+                generate: () => 'generate function called'
             }
 
             tools[methodSchema.operationId] = toolDefinition
