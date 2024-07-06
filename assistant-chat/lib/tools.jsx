@@ -255,30 +255,8 @@ export default function getTool(toolName='exampleTool'){
 
             } else {
                 parameters = methodSchema.parameters
-            }
-
-            // const schemaRef = methodSchema.requestBody?.content['application/json'].schema['$ref']
-            // let schema = schemaRef?.split('/').pop()
-            // let parameters = schema ? tool.components.schemas[schema] : methodSchema.parameters
-
-
-            // turn the params into this format using zod:
-            // parameters: z.object({
-            //         example: z.string().describe('Example parameter')
-            //     }), 
-            console.log('parameters', parameters)
-    //      parameters list -> [
-    //       {
-    //         "name": "spreadsheetId",
-    //         "in": "path",
-    //         "required": true,
-    //         "schema": {
-    //           "type": "string"
-    //         },
-    //         "description": "The ID of the spreadsheet to retrieve data from."
-    //       }
-    //     ]
-            parameters = z.object(parameters.reduce((acc, param) => {
+                
+                parameters = z.object(parameters.reduce((acc, param) => {
                 switch (param.schema.type) {
                     case 'string':
                     default:
@@ -296,12 +274,32 @@ export default function getTool(toolName='exampleTool'){
                 //       )
                 }
             }, {}))
+            }
+
+            // turn the params into this format using zod:
+            // parameters: z.object({
+            //         example: z.string().describe('Example parameter')
+            //     }), 
+            console.log('parameters', parameters)
+    //      parameters list -> [
+    //       {
+    //         "name": "spreadsheetId",
+    //         "in": "path",
+    //         "required": true,
+    //         "schema": {
+    //           "type": "string"
+    //         },
+    //         "description": "The ID of the spreadsheet to retrieve data from."
+    //       }
+    //     ]
 
             for (const param in parameters) {
                 console.log(param)
             }
 
             const someSortOfRecursiveFunction = (acc, params) => {
+                // if methodSchema has 
+
                 // if string do string
                     // exit condition
                 // if number do number
