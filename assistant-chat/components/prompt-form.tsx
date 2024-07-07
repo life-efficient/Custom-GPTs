@@ -67,7 +67,7 @@ export function PromptForm({
         ])
 
         // Submit and get response message
-        const responseMessage = await submitUserMessage(agentConfig, instructions, value)
+        const responseMessage = await submitUserMessage(agentConfig, instructions, value, localStorage.getItem('access_token'))
         setMessages(currentMessages => [...currentMessages, responseMessage])
       }}
     >

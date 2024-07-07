@@ -1,4 +1,5 @@
 import { object, z } from 'zod'
+import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
@@ -202,7 +203,7 @@ import { nanoid } from 'nanoid'
 //     }
 // }
 
-export default function getTool(toolName='exampleTool'){
+export default function getTool(toolName, accessTokens){
 
 
 
@@ -367,22 +368,28 @@ export default function getTool(toolName='exampleTool'){
             const toolDefinition = {
                 description: methodSchema.summary, // CHECK: this should be right
                 parameters,
-                generate: async (payloadGeneratedByModel) => {
+                generate: async function*(payloadGeneratedByModel){
+                    yield (
+                        <AnimatedShinyText className='m-0'>
+                            Talking to {endpoint} to call {methodSchema.operationId}
+                        </AnimatedShinyText>
+                    )
+                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
+                    await sleep(100000) // simulation of using the tool (possibly an API call to a backend service)
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
-                    const accessToken = localStorage.getItem('access_token')
+                    const accessToken = accessTokens // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
                     // TODO refresh access token if expired
 
                     // TODO move params into respective endpoint query string params or payload
-                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
                     const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
                     console.log('response', response)
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
-                    return "Hello world"
+                    return <p>Talked to {endpoint} to call {methodSchema.operationId}</p>
                 }
             }
 
@@ -477,7 +484,8 @@ export default function getTool(toolName='exampleTool'){
 }
 
 async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
-    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+
+    // console.log('making API request', endpoint, payload, method, accessToken)
     
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
@@ -495,7 +503,7 @@ async function makeToolApiRequest(accessToken, endpoint, payload = null, method 
     }
 
     try {
-        const response = await fetch(url, options);
+        const response = await fetch(endpoint, options);
         
         if (!response.ok) {
             if (response.status === 401) {
