@@ -2,7 +2,7 @@ import { object, z } from 'zod'
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 import { IconOpenAI } from '@/components/ui/icons'
-import { streamUI } from 'ai/rsc/dist';
+import { getMutableAIState } from 'ai/rsc'
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -209,7 +209,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 export default function getTool(toolName, accessTokens){
 
-
+    const aiState = getMutableAIState()
 
     console.log('importing tool', toolName)
     const tool = require(`@/agents/actions/${toolName}/action.js`).default
@@ -374,6 +374,43 @@ export default function getTool(toolName, accessTokens){
                     yield <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
 
                     await sleep(1000)
+                    
+                    const toolCallId = nanoid()
+
+                    aiState.done({
+                        ...aiState.get(),
+                        messages: [
+                            ...aiState.get().messages,
+                            {
+                                id: nanoid(),
+                                role: 'assistant',
+                                content: [
+                                    {
+                                        type: 'tool-call',
+                                        toolName: methodSchema.operationId,
+                                        toolCallId,
+                                        args: { payloadGeneratedByModel }
+                                    }
+                                ]
+                            },
+                            {
+                                id: nanoid(),
+                                role: 'tool',
+                                content: [
+                                    {
+                                        type: 'tool-result',
+                                        toolName: methodSchema.operationId,
+                                        toolCallId,
+                                        result: response
+                                    }
+                                ]
+                            }
+                            // TODO how do we get the AI to provide a response commentating on the tool result?
+                        ]
+                    })
+                    
+                    // allow AI to comment on tool response by calling streamUI
+                    // streamUI
                     return "hello world"
                 }
             }
