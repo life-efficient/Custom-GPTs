@@ -11,11 +11,11 @@ const getNothingTool = () => {
         description: 'Demonstrates tool calling, but does nothing',
         parameters: z.object({
             demoParam: z.array(
-            z.object({
-                demoParamObject1: z.string().describe('The first demo parameter'),
-                demoParamObject2: z.number().describe('The second demo parameter'),
-                demoParamObject3: z.number().describe('The third demo parameter')
-            })
+                z.object({
+                    demoParamObject1: z.string().describe('The first demo parameter'),
+                    demoParamObject2: z.number().describe('The second demo parameter'),
+                    demoParamObject3: z.number().describe('The third demo parameter')
+                })
             )
         }),
         generate: async function* ({ demoParam }) {
