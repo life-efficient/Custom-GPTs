@@ -2,6 +2,7 @@ import { object, z } from 'zod'
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 import { IconOpenAI } from '@/components/ui/icons'
+import { streamUI } from 'ai/rsc/dist';
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -397,6 +398,9 @@ export default function getTool(toolName, accessTokens){
         //                         // TODO how do we get the AI to provide a response commentating on the tool result?
         //                     ]
         //                 })
+                    
+                    // allow AI to comment on tool response by calling streamUI
+                    // streamUI
                     return "hello world"
                 }
             }
