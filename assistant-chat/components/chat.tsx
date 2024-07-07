@@ -91,7 +91,6 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       {/* <SignIn /> */}
       <OAuthConsentScreenRedirct/>
       {/* <GoogleDriveFilesComponent /> */}
-      <SpinnerMessage />
       <ChatPanel
         id={chatId}
         input={input}

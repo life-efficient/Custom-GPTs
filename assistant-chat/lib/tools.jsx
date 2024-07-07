@@ -3,6 +3,8 @@ import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 import { IconOpenAI } from '@/components/ui/icons'
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+
 // EXAMPLE SPEC for copilot to use for writing the getTool function
     // "openapi": "3.1.0",
     // "info": {
@@ -361,7 +363,41 @@ export default function getTool(toolName, accessTokens){
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
-                    return <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
+                    yield <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
+
+                    await sleep(1000)
+                       //                 aiState.done({
+        //                     ...aiState.get(),
+        //                     messages: [
+        //                         ...aiState.get().messages,
+        //                         {
+        //                             id: nanoid(),
+        //                             role: 'assistant',
+        //                             content: [
+        //                                 {
+        //                                     type: 'tool-call',
+        //                                     toolName: 'exampleTool',
+        //                                     toolCallId,
+        //                                     args: { example }
+        //                                 }
+        //                             ]
+        //                         },
+        //                         {
+        //                             id: nanoid(),
+        //                             role: 'tool',
+        //                             content: [
+        //                                 {
+        //                                     type: 'tool-result',
+        //                                     toolName: 'exampleTool',
+        //                                     toolCallId,
+        //                                     result: example
+        //                                 }
+        //                             ]
+        //                         }
+        //                         // TODO how do we get the AI to provide a response commentating on the tool result?
+        //                     ]
+        //                 })
+                    return "hello world"
                 }
             }
 
