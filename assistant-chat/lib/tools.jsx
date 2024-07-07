@@ -1,6 +1,5 @@
-import { z } from 'zod'
+import { object, z } from 'zod'
 import { nanoid } from 'nanoid'
-import { BotCard } from '@/components/stocks'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
     // "openapi": "3.1.0",
@@ -46,160 +45,161 @@ import { BotCard } from '@/components/stocks'
     //             }
     //         }
     //     },
-    // "/{spreadsheetId}": {
-    //   "get": {
-    //     "summary": "Read the entire spreadsheet",
-    //     "operationId": "getSpreadsheetValuesEntire",
-    //     "parameters": [
-    //       {
-    //         "name": "spreadsheetId",
-    //         "in": "path",
-    //         "required": true,
-    //         "schema": {
-    //           "type": "string"
-    //         },
-    //         "description": "The ID of the spreadsheet to retrieve data from."
-    //       }
-    //     ],
-    //     "responses": {
-    //       "200": {
-    //         "description": "Success",
-    //         "content": {
-    //           "application/json": {
-    //             "schema": {
-    //               "$ref": "#/components/schemas/ValueRange"
+    //     "/{spreadsheetId}": {
+    //         "get": {
+    //             "summary": "Read the entire spreadsheet",
+    //             "operationId": "getSpreadsheetValuesEntire",
+    //             "parameters": [
+        //             {
+        //                 "name": "spreadsheetId",
+        //                 "in": "path",
+        //                 "required": true,
+        //                 "schema": {
+        //                      "type": "string"
+        //                 },
+        //                 "description": "The ID of the spreadsheet to retrieve data from."
+        //             }
+    //             ],
+    //             "responses": {
+    //             "200": {
+    //                 "description": "Success",
+    //                 "content": {
+    //                 "application/json": {
+    //                     "schema": {
+    //                     "$ref": "#/components/schemas/ValueRange"
+    //                     }
+    //                 }
+    //                 }
+    //             },
+    //             "400": {
+    //                 "description": "Bad Request"
     //             }
-    //           }
+    //             }
     //         }
-    //       },
-    //       "400": {
-    //         "description": "Bad Request"
-    //       }
-    //     }
-    //   }
-    // },
-//      "components": {
+    //     },
+    // }
+// "components": {
 //     "schemas": {
-//       "Spreadsheet": {
-//         "type": "object",
-//         "properties": {
-//           "properties": {
+//         "Spreadsheet": {
 //             "type": "object",
 //             "properties": {
-//               "title": {
-//                 "type": "string"
-//               },
-//               "locale": {
-//                 "type": "string"
-//               },
-//               "autoRecalc": {
-//                 "type": "string"
-//               },
-//               "timeZone": {
-//                 "type": "string"
-//               }
-//             }
-//           },
-//           "sheets": {
-//             "type": "array",
-//             "items": {
-//               "type": "object",
-//               "properties": {
 //                 "properties": {
-//                   "type": "object",
-//                   "properties": {
-//                     "title": {
-//                       "type": "string"
-//                     },
-//                     "index": {
-//                       "type": "integer"
-//                     },
-//                     "sheetType": {
-//                       "type": "string"
-//                     },
-//                     "gridProperties": {
-//                       "type": "object",
-//                       "properties": {
-//                         "rowCount": {
-//                           "type": "integer"
+//                     "type": "object",
+//                     "properties": {
+//                         "title": {
+//                             "type": "string"
 //                         },
-//                         "columnCount": {
-//                           "type": "integer"
+//                         "locale": {
+//                             "type": "string"
+//                         },
+//                         "autoRecalc": {
+//                             "type": "string"
+//                         },
+//                         "timeZone": {
+//                             "type": "string"
 //                         }
-//                       }
 //                     }
-//                   }
+//                 },
+//                 "sheets": {
+//                     "type": "array",
+//                     "items": {
+    //                     "type": "object",
+    //                     "properties": {
+    //                         "properties": {
+        //                         "type": "object",
+        //                         "properties": {
+        //                             "title": {
+        //                                 "type": "string"
+        //                             },
+        //                             "index": {
+        //                                  "type": "integer"
+        //                             },
+        //                             "sheetType": {
+        //                                  "type": "string"
+        //                             },
+        //                             "gridProperties": {
+            //                              "type": "object",
+            //                             "properties": {
+            //                                 "rowCount": {
+            //                                     "type": "integer"
+            //                                 },
+            //                                 "columnCount": {
+            //                                     "type": "integer"
+            //                                 }
+            //                             }
+        //                             }
+        //                         }
+    //                         }
+    //                     }
+//                     }
 //                 }
-//               }
 //             }
-//           }
-//         }
-//       },
-//       "ValueRange": {
-//         "type": "object",
-//         "properties": {
-//           "values": {
-//             "type": "array",
-//             "items": {
-//               "type": "array",
-//               "items": {
-//                 "type": "string"
-//               }
-//             },
-//             "description": "The new data to be placed in the range."
-//           }
-//         }
-//       },
-//       "UpdateValuesResponse": {
-//         "type": "object",
-//         "properties": {
-//           "spreadsheetId": {
-//             "type": "string"
-//           },
-//           "updatedRange": {
-//             "type": "string"
-//           },
-//           "updatedRows": {
-//             "type": "integer"
-//           },
-//           "updatedColumns": {
-//             "type": "integer"
-//           },
-//           "updatedCells": {
-//             "type": "integer"
-//           }
-//         }
-//       },
-//       "AppendValuesResponse": {
-//         "type": "object",
-//         "properties": {
-//           "spreadsheetId": {
-//             "type": "string"
-//           },
-//           "tableRange": {
-//             "type": "string"
-//           },
-//           "updates": {
+//         },
+//         "ValueRange": {
 //             "type": "object",
 //             "properties": {
-//               "updatedRange": {
-//                 "type": "string"
-//               },
-//               "updatedRows": {
-//                 "type": "integer"
-//               },
-//               "updatedColumns": {
-//                 "type": "integer"
-//               },
-//               "updatedCells": {
-//                 "type": "integer"
-//               }
+    //             "values": {
+    //                 "type": "array",
+    //                 "items": {
+        //                 "type": "array",
+        //                 "items": {
+        //                     "type": "string"
+        //                     "description": "insert description."
+        //                 }
+    //                 },
+    //                 "description": "The new data to be placed in the range."
+    //             }
 //             }
-//           }
+//         },
+//         "UpdateValuesResponse": {
+//             "type": "object",
+//             "properties": {
+    //             "spreadsheetId": {
+    //                 "type": "string"
+    //             },
+    //             "updatedRange": {
+    //                 "type": "string"
+    //             },
+    //             "updatedRows": {
+    //                 "type": "integer"
+    //             },
+    //             "updatedColumns": {
+    //                 "type": "integer"
+    //             },
+    //             "updatedCells": {
+    //                 "type": "integer"
+    //             }
+//             }
+//         },
+//         "AppendValuesResponse": {
+//             "type": "object",
+//             "properties": {
+//                 "spreadsheetId": {
+//                     "type": "string"
+//                 },
+//                 "tableRange": {
+//                     "type": "string"
+//                 },
+//                 "updates": {
+//                     "type": "object",
+//                     "properties": {
+//                         "updatedRange": {
+//                             "type": "string"
+//                         },
+//                         "updatedRows": {
+//                             "type": "integer"
+//                         },
+//                         "updatedColumns": {
+//                             "type": "integer"
+//                         },
+//                         "updatedCells": {
+//                             "type": "integer"
+//                         }
+//                     }
+//                 }
+//             }
 //         }
-//       }
 //     }
-//   }
 // }
 
 export default function getTool(toolName='exampleTool'){
@@ -212,7 +212,7 @@ export default function getTool(toolName='exampleTool'){
     
     const tools = {}
     
-    // const apiHost = tool.servers[0].url
+    const apiHost = tool.servers[0].url
     // get list of different paths available at this API
     for (const path in tool.paths) {
     // tool.paths.map(path => {
@@ -222,7 +222,7 @@ export default function getTool(toolName='exampleTool'){
 
         console.log('path', path)
 
-        // const endpoint = apiHost + path
+        const endpoint = apiHost + path
 
         // get list of different methods available at this endpoint
         for (const method in tool.paths[path]) {
@@ -237,30 +237,65 @@ export default function getTool(toolName='exampleTool'){
             // TODO? possibly ensure that the api spec is generated without using references
             // references are used to deduplicate the schema, but this may not be necessary for our purposes, as the schema can be generated by an AI system
             // if schema uses references
-            if (methodSchema.requestBody) {
-                console.log(path, method, 'has requestBody')
-                continue
-                // update the method to use "parameters" instead of "requestBody"
-                const schema = methodSchema.requestBody.content['application/json'].schema['$ref']
-                // TODO
 
-                
+
+            
+            //const convertSchemaToParams = (param) => {
+            function convertSchemaToParams(param) {
+                console.log('converting schema to params', param)
+                if (!param.type) { // if there is no type, it means thereis more than one parameter in params.
+                    const objectWithMultipleParams = {}
+                    for (const key in param) {
+                        objectWithMultipleParams[key] = convertSchemaToParams(param[key])
+                    }
+                    return objectWithMultipleParams
+                }
+
+            switch (param.type) {
+                case 'string':
+                    return z.string().describe(param.description)
+                case 'integer':
+                    return z.number().describe(param.description)
+                case 'boolean':
+                    return z.boolean().describe(param.description)
+                case 'array':
+                    return z.array(convertSchemaToParams(param.items))
+                case 'object':
+                    return z.object(convertSchemaToParams(param.properties))
+                default:
+                    console.log("unsupported type", param.type)
+                    return z.string().describe('unknown description')
+                }
             }
-            let parameters = methodSchema.parameters
-            // turn the params into this format using zod:
-            // parameters: z.object({
-            //         example: z.string().describe('Example parameter')
-            //     }), 
-            console.log('parameters', parameters)
-            parameters = z.object(parameters.reduce((acc, param) => {
-                switch (param.schema.type) {
-                    case 'string':
-                    default:
-                        return acc[param.name] = z.string().describe(param.description)
-                        console.log('unsupported type', param.schema.type)
-                        // continue
-                // TODO implement other case for non-strings
-                // e.g
+
+            let parameters //TODO: add some typecript types here
+
+            if (methodSchema.requestBody) {
+                //console.log(path, method, 'has requestBody')
+                //continue
+                // update the method to use "parameters" instead of "requestBody"
+                const schemaRef = methodSchema.requestBody.content['application/json'].schema['$ref']
+                // TODO
+                let schema = schemaRef.split('/').pop()
+                console.log('schema:', schema) 
+                parameters = tool.components.schemas[schema]
+
+                parameters = convertSchemaToParams(parameters)
+
+            } else {
+
+                //console.log("methodSchema simple is running: ", methodSchema)
+                parameters = methodSchema.parameters // TODO get this to work for more complicated "simple" schemass
+
+                parameters = z.object(parameters.reduce((acc, param) => {
+                    switch (param.schema.type) {
+                        case 'string':
+                        default:
+                            return acc[param.name] = z.string().describe(param.description) 
+                            console.log('unsupported type', param.schema.type)
+                            // continue
+                    // TODO implement other case for non-strings
+                    // e.g
                     //       stocks: z.array(
                     //         z.object({
                     //           symbol: z.string().describe('The symbol of the stock'),
@@ -268,16 +303,82 @@ export default function getTool(toolName='exampleTool'){
                     //           delta: z.number().describe('The change in price of the stock')
                     //         })
                     //       )
-                }
-            }, {}))
+                    }
+                }, {}))
+            }
+            // turn the params into this format using zod:
+            // parameters: z.object({
+            //         example: z.string().describe('Example parameter')
+            //     }), 
+            //console.log('parameters', parameters)
+    //      parameters list -> [
+    //       {
+    //         "name": "spreadsheetId",
+    //         "in": "path",
+    //         "required": true,
+    //         "schema": {
+    //           "type": "string"
+    //         },
+    //         "description": "The ID of the spreadsheet to retrieve data from."
+    //       }
+    //     ]
+
+            // // AARRGHHHHH EXAMPLE
+            // ValueRange: z.object({ // this oen had type object.
+            //     values: z.array(
+            //         z.array(
+            //             z.string().describe(values.items.items.decription)
+            //         )
+            //     ).describe(values.description)
+            // })
+                
+            
+
+            // Spreadsheet: z.object({
+            //     properties: z.object({
+            //         title: z.string().describe('The title of the spreadsheet'),
+            //         locale: z.string().describe('The locale of the spreadsheet'),
+            //         autoRecalc: z.string().describe('The autoRecalc of the spreadsheet'),
+            //         timeZone: z.string().describe('The timeZone of the spreadsheet')
+            //     }),
+            //     sheets: z.array(
+            //         z.object({
+            //             properties: z.object({
+            //                 title: z.string().describe('The title of the sheet'),
+            //                 index: z.number().describe('The index of the sheet'),
+            //                 sheetType: z.string().describe('The type of the sheet'),
+            //                 gridProperties: z.object({
+            //                     rowCount: z.number().describe('The number of rows in the grid'),
+            //                     columnCount: z.number().describe('The number of columns in the grid')
+            //                 })
+            //             })
+            //         })
+            //     )
+            // })
+
+
+            // // SIMPLE EXAMPLE
+            // getSpreadsheetValuesrange: z.object({ // this one doesn't
+            //     spreadsheetId: z.string().describe('The ID of the spreadsheet to retrieve data from.'),
+            //     range: z.string().describe('The range of cells to retrieve data from'),
+            // })
+
 
             const toolDefinition = {
-                description,
+                description: methodSchema.summary, // CHECK: this should be right
                 parameters,
-                generate: () => {
+                generate: async (payloadGeneratedByModel) => {
+
+                    // TODO get app-relevant access token... this one only works for the latest retrieved access token
+                    const accessToken = localStorage.getItem('access_token')
+                    // TODO check for access token in localstorage
+                    // TODO refresh access token if expired
+
+                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
+
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
-                    // TODO implement backend tool call if necessary as described below
+                    
                     return "Hello world"
                 }
             }
@@ -372,7 +473,42 @@ export default function getTool(toolName='exampleTool'){
         // }
 }
 
+async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
+    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+    
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    
+    const options = {
+        method,
+        headers
+    };
+    
+    if (payload) {
+        options.body = JSON.stringify(payload);
+    }
 
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Unauthorized: Invalid or expired token.');
+            }
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Failed to make API request:', error);
+        return null;
+    }
+}
 
 
 
