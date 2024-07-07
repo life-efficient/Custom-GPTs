@@ -374,8 +374,11 @@ export default function getTool(toolName='exampleTool'){
                     // TODO check for access token in localstorage
                     // TODO refresh access token if expired
 
-                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
+                    // TODO move params into respective endpoint query string params or payload
+                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
+                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
+                    console.log('response', response)
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
