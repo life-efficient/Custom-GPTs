@@ -56,7 +56,7 @@ import { BotCard } from '@/components/stocks'
         //                 "in": "path",
         //                 "required": true,
         //                 "schema": {
-        //                     "type": "string"
+        //                      "type": "string"
         //                 },
         //                 "description": "The ID of the spreadsheet to retrieve data from."
         //             }
@@ -240,38 +240,39 @@ export default function getTool(toolName='exampleTool'){
             // if schema uses references
 
 
-
+            
             //const convertSchemaToParams = (param) => {
             function convertSchemaToParams(param) {
                 console.log('converting schema to params', param)
                 if (!param.type) { // if there is no type, it means thereis more than one parameter in params.
                     const objectWithMultipleParams = {}
                     for (const key in param) {
-                        objectWithMultipleParams[key] = convertSchemaToParams(param[key]) }
+                        objectWithMultipleParams[key] = convertSchemaToParams(param[key])
                     }
                     return objectWithMultipleParams
                 }
 
-                switch (param.type) {
-                    case 'string':
-                        return z.string().describe(params.description)
-                    case 'integer':
-                        return z.number().describe(params.description)
-                    case 'boolean':
-                        return z.boolean().describe(params.description)
-                    case 'array':
-                        return z.array(convertSchemaToParams(param.items))
-                    case 'object':
-                        return z.object(convertSchemaToParams(param.properties))
-                    default:
-                        console.log("unsupported type", param.type)
-                        return z.string().describe('unknown description')
+            switch (param.type) {
+                case 'string':
+                    return z.string().describe(param.description)
+                case 'integer':
+                    return z.number().describe(param.description)
+                case 'boolean':
+                    return z.boolean().describe(param.description)
+                case 'array':
+                    return z.array(convertSchemaToParams(param.items))
+                case 'object':
+                    return z.object(convertSchemaToParams(param.properties))
+                default:
+                    console.log("unsupported type", param.type)
+                    return z.string().describe('unknown description')
+                }
             }
 
             let parameters //TODO: add some typecript types here
 
             if (methodSchema.requestBody) {
-                console.log(path, method, 'has requestBody')
+                //console.log(path, method, 'has requestBody')
                 //continue
                 // update the method to use "parameters" instead of "requestBody"
                 const schemaRef = methodSchema.requestBody.content['application/json'].schema['$ref']
@@ -283,7 +284,9 @@ export default function getTool(toolName='exampleTool'){
                 parameters = convertSchemaToParams(parameters)
 
             } else {
-                parameters = methodSchema.parameters
+
+                //console.log("methodSchema simple is running: ", methodSchema)
+                parameters = methodSchema.parameters // TODO get this to work for more complicated "simple" schemass
 
                 parameters = z.object(parameters.reduce((acc, param) => {
                     switch (param.schema.type) {
@@ -304,12 +307,11 @@ export default function getTool(toolName='exampleTool'){
                     }
                 }, {}))
             }
-
             // turn the params into this format using zod:
             // parameters: z.object({
             //         example: z.string().describe('Example parameter')
             //     }), 
-            console.log('parameters', parameters)
+            //console.log('parameters', parameters)
     //      parameters list -> [
     //       {
     //         "name": "spreadsheetId",
