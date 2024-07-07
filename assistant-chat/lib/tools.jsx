@@ -1,6 +1,5 @@
 import { object, z } from 'zod'
 import { nanoid } from 'nanoid'
-import { BotCard } from '@/components/stocks'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
     // "openapi": "3.1.0",
@@ -213,7 +212,7 @@ export default function getTool(toolName='exampleTool'){
     
     const tools = {}
     
-    // const apiHost = tool.servers[0].url
+    const apiHost = tool.servers[0].url
     // get list of different paths available at this API
     for (const path in tool.paths) {
     // tool.paths.map(path => {
@@ -223,7 +222,7 @@ export default function getTool(toolName='exampleTool'){
 
         console.log('path', path)
 
-        // const endpoint = apiHost + path
+        const endpoint = apiHost + path
 
         // get list of different methods available at this endpoint
         for (const method in tool.paths[path]) {
@@ -367,8 +366,21 @@ export default function getTool(toolName='exampleTool'){
 
             const toolDefinition = {
                 description: methodSchema.summary, // CHECK: this should be right
-                parameters, //methodSchema.requestBody ? parameters.properties, // CHECK: THIS IS WHERE requestBody stuff should be used. 
-                generate: () => 'generate function called'
+                parameters,
+                generate: async (payloadGeneratedByModel) => {
+
+                    // TODO get app-relevant access token... this one only works for the latest retrieved access token
+                    const accessToken = localStorage.getItem('access_token')
+                    // TODO check for access token in localstorage
+                    // TODO refresh access token if expired
+
+                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
+
+                    //  const aiState = getMutableAIState<typeof AI>()
+                    // TODO update aiState as below
+                    
+                    return "Hello world"
+                }
             }
 
             tools[methodSchema.operationId] = toolDefinition
@@ -461,7 +473,42 @@ export default function getTool(toolName='exampleTool'){
         // }
 }
 
+async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
+    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+    
+    const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    
+    const options = {
+        method,
+        headers
+    };
+    
+    if (payload) {
+        options.body = JSON.stringify(payload);
+    }
 
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error('Unauthorized: Invalid or expired token.');
+            }
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response:', data);
+        return data;
+    } catch (error) {
+        console.error('Failed to make API request:', error);
+        return null;
+    }
+}
 
 
 

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "gapi-script": "^1.2.0",
     "js-yaml": "^4.1.0"
   }
 }
