@@ -35,7 +35,7 @@ import { saveChat } from '@/app/actions'
 import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { AgentConfig, Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
-import getTool from '@/lib/tools'
+import getTool, { ToolCallCompleteMessage, ToolCallLoadingStateMessage } from '@/lib/tools'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -180,6 +180,7 @@ async function submitUserMessage(
     },
     tools: {
       ...agentTools,
+      // TODO move nothing tool to util
       nothingTool: {
         description: 'Demonstrates tool calling, but does nothing',
         parameters: z.object({
@@ -193,10 +194,7 @@ async function submitUserMessage(
         }),
         generate: async function* ({ demoParam }) {
           yield (
-            <BotCard>
-              Talking to TOOLNAME
-              {/* TODO implement skeleton shimmer */}
-            </BotCard>
+              <ToolCallLoadingStateMessage text='Talking to nothingTool...' />
           )
 
           await sleep(3000)
@@ -237,9 +235,7 @@ async function submitUserMessage(
           })
 
           return (
-            <BotCard>
-              Talked to TOOLNAME
-            </BotCard>
+            <ToolCallCompleteMessage text='Talked to nothingTool' />
           )
         }
       },
