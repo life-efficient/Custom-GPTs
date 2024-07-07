@@ -115,7 +115,7 @@ async function submitUserMessage(
 ) {
   'use server'
 
-  console.log('accessTokens:', accessTokens)
+  // console.log('accessTokens:', accessTokens)
 
   // console.log('available tools:', agentConfig?.tools)
   // map name of tool to {name: getTool(name)}

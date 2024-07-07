@@ -1,4 +1,5 @@
 import { object, z } from 'zod'
+import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
@@ -369,7 +370,9 @@ export default function getTool(toolName, accessTokens){
                 parameters,
                 generate: async function*(payloadGeneratedByModel){
                     yield (
-                        <p>Talking to {endpoint} to call {methodSchema.operationId}</p>
+                        <AnimatedShinyText>
+                            Talking to {endpoint} to call {methodSchema.operationId}
+                        </AnimatedShinyText>
                     )
                     console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
@@ -385,7 +388,7 @@ export default function getTool(toolName, accessTokens){
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
-                    return "Hello world"
+                    return <p>Talked to {endpoint} to call {methodSchema.operationId}</p>
                 }
             }
 
@@ -481,7 +484,7 @@ export default function getTool(toolName, accessTokens){
 
 async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
 
-    console.log('making API request', endpoint, payload, method, accessToken)
+    // console.log('making API request', endpoint, payload, method, accessToken)
     
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
