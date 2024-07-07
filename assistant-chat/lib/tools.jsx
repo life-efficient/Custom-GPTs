@@ -328,23 +328,15 @@ export default function getTool(toolName, accessTokens){
                 parameters = convertSchemaToParams(parameters)
 
             } else {
-                parameters = methodSchema.parameters // TODO get this to work for more complicated "simple" schemass
+                parameters = methodSchema.parameters
 
-                parameters = z.object(parameters.reduce((acc, param) => {
+                parameters = z.object(parameters.reduce((acc, param) => { 
                     switch (param.schema.type) {
                         case 'string':
-                        default:
-                            return acc[param.name] = z.string().describe(param.description) 
+                            return acc[param.name] = z.string().describe(param.description)
+                        default: // this may work for other types, but it is untested. 
                             console.log('unsupported type', param.schema.type)
-                    // TODO implement other case for non-strings
-                    // e.g
-                    //       stocks: z.array(
-                    //         z.object({
-                    //           symbol: z.string().describe('The symbol of the stock'),
-                    //           price: z.number().describe('The price of the stock'),
-                    //           delta: z.number().describe('The change in price of the stock')
-                    //         })
-                    //       )
+                            return acc[param.name] = convertSchemaToParams(param.schema)
                     }
                 }, {}))
             }
