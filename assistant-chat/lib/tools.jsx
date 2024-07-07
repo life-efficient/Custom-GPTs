@@ -374,9 +374,8 @@ export default function getTool(toolName, accessTokens){
                             Talking to {endpoint} to call {methodSchema.operationId}
                         </AnimatedShinyText>
                     )
-                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
+                    // console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
-                    await sleep(100000) // simulation of using the tool (possibly an API call to a backend service)
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
                     const accessToken = accessTokens // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
