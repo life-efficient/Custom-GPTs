@@ -36,6 +36,7 @@ import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { AgentConfig, Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
 import getTool, { ToolCallCompleteMessage, ToolCallLoadingStateMessage } from '@/lib/tools'
+import getNothingTool from '@/lib/tools/nothingTool'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -181,64 +182,7 @@ async function submitUserMessage(
     tools: {
       ...agentTools,
       // TODO move nothing tool to util
-      nothingTool: {
-        description: 'Demonstrates tool calling, but does nothing',
-        parameters: z.object({
-          demoParam: z.array(
-            z.object({
-              demoParamObject1: z.string().describe('The first demo parameter'),
-              demoParamObject2: z.number().describe('The second demo parameter'),
-              demoParamObject3: z.number().describe('The third demo parameter')
-            })
-          )
-        }),
-        generate: async function* ({ demoParam }) {
-          yield (
-              <ToolCallLoadingStateMessage text='Talking to nothingTool...' />
-          )
-
-          await sleep(3000)
-
-          const toolCallId = nanoid()
-
-          // IMPLEMENT TOOL CALL HERE
-
-          aiState.done({
-            ...aiState.get(),
-            messages: [
-              ...aiState.get().messages,
-              {
-                id: nanoid(),
-                role: 'assistant',
-                content: [
-                  {
-                    type: 'tool-call',
-                    toolName: 'nothingTool',
-                    toolCallId,
-                    args: { demoParam }
-                  }
-                ]
-              },
-              {
-                id: nanoid(),
-                role: 'tool',
-                content: [
-                  {
-                    type: 'tool-result',
-                    toolName: 'nothingTool',
-                    toolCallId,
-                    result: 'demo result'
-                  }
-                ]
-              }
-            ]
-          })
-
-          return (
-            <ToolCallCompleteMessage text='Talked to nothingTool' />
-          )
-        }
-      },
+      nothingTool: getNothingTool()
     }
   })
 
