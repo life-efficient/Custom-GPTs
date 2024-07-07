@@ -202,7 +202,7 @@ import { nanoid } from 'nanoid'
 //     }
 // }
 
-export default function getTool(toolName='exampleTool'){
+export default function getTool(toolName, accessTokens){
 
 
 
@@ -369,14 +369,12 @@ export default function getTool(toolName='exampleTool'){
                 parameters,
                 generate: async function*(payloadGeneratedByModel){
                     yield (
-                        <BotCard>
-                            <p>Talking to {endpoint} to call {methodSchema.operationId}</p>
-                        </BotCard>
+                        <p>Talking to {endpoint} to call {methodSchema.operationId}</p>
                     )
                     console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
-                    const accessToken = localStorage.getItem('access_token')
+                    const accessToken = accessTokens // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
                     // TODO refresh access token if expired
 

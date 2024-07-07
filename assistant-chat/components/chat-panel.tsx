@@ -73,7 +73,8 @@ export function ChatPanel({
                   const responseMessage = await submitUserMessage(
                     agentConfig,
                     instructions,
-                    example.message
+                    example.message,
+                    localStorage.getItem('access_token')
                   )
 
                   setMessages(currentMessages => [

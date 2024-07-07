@@ -107,16 +107,23 @@ async function confirmPurchase(symbol: string, price: number, amount: number) {
   }
 }
 
-async function submitUserMessage(agentConfig: AgentConfig, system: string, content: string) {
+async function submitUserMessage(
+  agentConfig: AgentConfig,
+  system: string, // TODO remove (already included in agentConfig)
+  content: string,
+  accessTokens: any // used to pass access tokens to tool API calls
+) {
   'use server'
 
-  console.log('available tools:', agentConfig?.tools)
+  console.log('accessTokens:', accessTokens)
+
+  // console.log('available tools:', agentConfig?.tools)
   // map name of tool to {name: getTool(name)}
   let agentTools = {}
   for (const toolName of (agentConfig.tools || [])) {
-    agentTools = {...agentTools, ...getTool(toolName)}
+    agentTools = {...agentTools, ...getTool(toolName, accessTokens)}
   }
-  console.log('agentTools:', agentTools)
+  // console.log('agentTools:', agentTools)
 
   const aiState = getMutableAIState<typeof AI>()
 

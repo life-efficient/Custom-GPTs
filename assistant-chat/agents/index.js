@@ -62,6 +62,11 @@ If there are events that are designed to overlap, create them as a separate cale
                 heading: 'What',
                 subheading: 'parameters do each of your tools take?',
                 message: "What parameters do each of your tools take?"
+            },
+            {
+                heading: 'Call',
+                subheading: 'the function to create a new spreadsheet',
+                message: "Call the function to create a new spreadsheet"
             }
         ],
         tools: [
