@@ -367,7 +367,13 @@ export default function getTool(toolName='exampleTool'){
             const toolDefinition = {
                 description: methodSchema.summary, // CHECK: this should be right
                 parameters,
-                generate: async (payloadGeneratedByModel) => {
+                generate: async function*(payloadGeneratedByModel){
+                    yield (
+                        <BotCard>
+                            <p>Talking to {endpoint} to call {methodSchema.operationId}</p>
+                        </BotCard>
+                    )
+                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
                     const accessToken = localStorage.getItem('access_token')
@@ -375,7 +381,6 @@ export default function getTool(toolName='exampleTool'){
                     // TODO refresh access token if expired
 
                     // TODO move params into respective endpoint query string params or payload
-                    console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
                     const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
                     console.log('response', response)
