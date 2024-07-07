@@ -375,7 +375,7 @@ export default function getTool(toolName, accessTokens){
                     )
                     // console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
-                    await sleep(100000) // simulation of using the tool (possibly an API call to a backend service)
+                    // await sleep(100000) // simulation of using the tool (possibly an API call to a backend service)
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
                     const accessToken = accessTokens // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
@@ -388,7 +388,7 @@ export default function getTool(toolName, accessTokens){
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
-                    return <p>Talked to {endpoint} to call {methodSchema.operationId}</p>
+                    return <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
                 }
             }
 
@@ -576,6 +576,19 @@ async function makeToolApiRequest(accessToken, endpoint, payload = null, method 
 //             </BotCard>
 //           )
 //         }
+
+export function ToolCallCompleteMessage({text}) {
+    return (
+        <div className="group relative flex items-start md:-ml-12">
+            <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
+                <IconOpenAI />
+            </div>
+            <div className="text-muted-foreground ml-4 flex-1 space-y-2 overflow-hidden px-1">
+                {text}
+            </div>
+        </div>
+    )
+}
 
 export function ToolCallLoadingStateMessage({text}) {
   return (
