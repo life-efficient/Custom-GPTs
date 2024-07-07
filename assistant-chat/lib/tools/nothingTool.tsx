@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import { getMutableAIState } from 'ai/rsc'
 
 
-const nothingTool = () => {
+const getNothingTool = () => {
     const aiState = getMutableAIState<typeof AI>()
     return {
         description: 'Demonstrates tool calling, but does nothing',
@@ -67,4 +67,4 @@ const nothingTool = () => {
     }
 }
 
-export default nothingTool
+export default getNothingTool
