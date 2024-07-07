@@ -2,7 +2,6 @@ import { object, z } from 'zod'
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 import { IconOpenAI } from '@/components/ui/icons'
-import { streamUI } from 'ai/rsc/dist';
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
