@@ -15,6 +15,7 @@ import { useSearchParams } from 'next/navigation'
 import agents from '@/agents'
 // import useGoogleDrive from '@/lib/hooks/google'
 import { googleSignIn } from '@/lib/google-apis'
+import { SpinnerMessage } from './stocks/message'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   agentId: string
@@ -90,6 +91,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       {/* <SignIn /> */}
       <OAuthConsentScreenRedirct/>
       {/* <GoogleDriveFilesComponent /> */}
+      <SpinnerMessage />
       <ChatPanel
         id={chatId}
         input={input}

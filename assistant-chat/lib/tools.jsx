@@ -1,6 +1,7 @@
 import { object, z } from 'zod'
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
+import { IconOpenAI } from '@/components/ui/icons'
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
     // "openapi": "3.1.0",
@@ -370,12 +371,11 @@ export default function getTool(toolName, accessTokens){
                 parameters,
                 generate: async function*(payloadGeneratedByModel){
                     yield (
-                        <AnimatedShinyText className='m-0'>
-                            Talking to {endpoint} to call {methodSchema.operationId}
-                        </AnimatedShinyText>
+                        <ToolCallLoadingStateMessage text={`Talking to ${endpoint} to call ${methodSchema.operationId}`} />
                     )
                     // console.log('making tool call API request', endpoint, payloadGeneratedByModel, method)
 
+                    await sleep(100000) // simulation of using the tool (possibly an API call to a backend service)
                     // TODO get app-relevant access token... this one only works for the latest retrieved access token
                     const accessToken = accessTokens // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
@@ -576,3 +576,18 @@ async function makeToolApiRequest(accessToken, endpoint, payload = null, method 
 //             </BotCard>
 //           )
 //         }
+
+export function ToolCallLoadingStateMessage({text}) {
+  return (
+        <div className="group relative flex items-start md:-ml-12">
+            <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
+                <IconOpenAI />
+            </div>
+            <div className="ml-4 flex-1 space-y-2 overflow-hidden px-1">
+                <AnimatedShinyText className='m-0'>
+                    {text}
+                </AnimatedShinyText> 
+            </div>
+        </div>
+  )
+}
