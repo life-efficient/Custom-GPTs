@@ -480,7 +480,8 @@ export default function getTool(toolName, accessTokens){
 }
 
 async function makeToolApiRequest(accessToken, endpoint, payload = null, method = 'GET') {
-    const url = `https://www.googleapis.com/drive/v3/${endpoint}`;
+
+    console.log('making API request', endpoint, payload, method, accessToken)
     
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
@@ -498,7 +499,7 @@ async function makeToolApiRequest(accessToken, endpoint, payload = null, method 
     }
 
     try {
-        const response = await fetch(url, options);
+        const response = await fetch(endpoint, options);
         
         if (!response.ok) {
             if (response.status === 401) {
