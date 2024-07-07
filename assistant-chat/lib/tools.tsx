@@ -1,8 +1,10 @@
-import { object, z } from 'zod'
+import { z } from 'zod'
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text";
 import { nanoid } from 'nanoid'
 import { IconOpenAI } from '@/components/ui/icons'
 import { getMutableAIState } from 'ai/rsc'
+import { getResponse } from './chat/ai';
+import { AgentConfig } from '@/lib/types';
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -207,7 +209,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 //     }
 // }
 
-export default function getTool(toolName, accessTokens){
+export default function getTool(toolName, accessTokens, agentConfig: AgentConfig){
 
     const aiState = getMutableAIState()
 
@@ -425,13 +427,23 @@ export default function getTool(toolName, accessTokens){
                                     }
                                 ]
                             }
-                            // TODO how do we get the AI to provide a response commentating on the tool result?
                         ]
                     })
                     
                     // allow AI to comment on tool response by calling streamUI
-                    // streamUI
-                    return "hello world"
+                    console.log('making follow up response:', aiState, agentConfig, {})
+                    const aiResponse = await getResponse(
+                        aiState,
+                        agentConfig,
+                        {} // empty dictionary of toolID:descriptions TODO we will want to enable to model to call tools in sequence
+                    )
+                    //   TODO update AI state
+                    console.log('Ai response:', aiResponse)
+                    return <>
+                        <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
+                        {aiResponse.value}
+                    </>
+
                 }
             }
 

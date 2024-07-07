@@ -8,7 +8,6 @@ import {
   streamUI,
   createStreamableValue
 } from 'ai/rsc'
-import { openai } from '@ai-sdk/openai'
 
 import {
   spinner,
@@ -36,7 +35,7 @@ import { SpinnerMessage, UserMessage } from '@/components/stocks/message'
 import { AgentConfig, Chat, Message } from '@/lib/types'
 import { auth } from '@/auth'
 import getTool, { ToolCallCompleteMessage, ToolCallLoadingStateMessage } from '@/lib/tools'
-import getNothingTool from '@/lib/tools/nothingTool'
+import { getResponse } from '@/lib/chat/ai'
 
 async function confirmPurchase(symbol: string, price: number, amount: number) {
   'use server'
@@ -122,7 +121,7 @@ async function submitUserMessage(
   // map name of tool to {name: getTool(name)}
   let agentTools = {}
   for (const toolName of (agentConfig.tools || [])) {
-    agentTools = {...agentTools, ...getTool(toolName, accessTokens)}
+    agentTools = {...agentTools, ...getTool(toolName, accessTokens, agentConfig)}
   }
   // console.log('agentTools:', agentTools)
 
@@ -140,51 +139,7 @@ async function submitUserMessage(
     ]
   })
 
-  let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
-  let textNode: undefined | React.ReactNode
-
-  const result = await streamUI({
-    model: openai('gpt-3.5-turbo'),
-    initial: <SpinnerMessage />,
-    system,
-    messages: [
-      ...aiState.get().messages.map((message: any) => ({
-        role: message.role,
-        content: message.content,
-        name: message.name
-      }))
-    ],
-    text: ({ content, done, delta }) => {
-      if (!textStream) {
-        textStream = createStreamableValue('')
-        textNode = <BotMessage content={textStream.value} />
-      }
-
-      if (done) {
-        textStream.done()
-        aiState.done({
-          ...aiState.get(),
-          messages: [
-            ...aiState.get().messages,
-            {
-              id: nanoid(),
-              role: 'assistant',
-              content
-            }
-          ]
-        })
-      } else {
-        textStream.update(delta)
-      }
-
-      return textNode
-    },
-    tools: {
-      ...agentTools,
-      // TODO move nothing tool to util
-      nothingTool: getNothingTool()
-    }
-  })
+  const result = await getResponse(aiState, agentConfig, agentTools)
 
   return {
     id: nanoid(),
