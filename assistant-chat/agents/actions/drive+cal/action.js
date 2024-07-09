@@ -1,0 +1,1125 @@
+export default {
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Google API Operations",
+        "description": "OpenAPI specification for Google Drive and Google Calendar operations.",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "https://www.googleapis.com"
+        }
+    ],
+    "paths": {
+        "/drive/v3/files": {
+            "get": {
+                "summary": "List files in Google Drive",
+                "operationId": "listFiles",
+                "parameters": [
+                    {
+                        "name": "corpora",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The source of files to list."
+                    },
+                    {
+                        "name": "driveId",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "ID of the shared drive to search."
+                    },
+                    {
+                        "name": "includeItemsFromAllDrives",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether both My Drive and shared drive items should be included in results."
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "A comma-separated list of sort keys."
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "description": "The maximum number of files to return per page."
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The token for continuing a previous list request on the next page."
+                    },
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "A query for filtering the file results."
+                    },
+                    {
+                        "name": "spaces",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "drive"
+                        },
+                        "description": "A comma-separated list of spaces to query within."
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "default": "nextPageToken, files(id, name)"
+                        },
+                        "description": "The fields to include in a partial response."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of files retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FileList"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new folder in Google Drive",
+                "operationId": "createFolder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/File",
+                                "example": {
+                                    "name": "New Folder",
+                                    "mimeType": "application/vnd.google-apps.folder"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Folder created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/File"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/calendar/v3/users/me/calendarList": {
+            "get": {
+                "summary": "List calendar entries",
+                "operationId": "listCalendarEntries",
+                "parameters": [
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Maximum number of entries returned on one result page. By default, the value is 100 entries. The page size can never be larger than 250 entries."
+                    },
+                    {
+                        "name": "minAccessRole",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The minimum access role for the user in the returned entries. The default is no restriction."
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token specifying which result page to return."
+                    },
+                    {
+                        "name": "showDeleted",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether to include deleted calendar list entries in the result. Deleted calendar list entries are represented by entries with the \"deleted\" property set to true."
+                    },
+                    {
+                        "name": "showHidden",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether to show hidden entries."
+                    },
+                    {
+                        "name": "syncToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since the last sync."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of calendar list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CalendarList"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/calendar/v3/calendars/{calendarId}/events": {
+            "get": {
+                "summary": "List events in a calendar",
+                "operationId": "listCalendarEvents",
+                "parameters": [
+                    {
+                        "name": "calendarId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the calendar to retrieve events from."
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Maximum number of events returned on one result page. By default, the value is 250 events."
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The order of the events returned in the result. Optional. The default is an unspecified order.",
+                        "enum": [
+                            "startTime",
+                            "updated"
+                        ]
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token specifying which result page to return."
+                    },
+                    {
+                        "name": "showDeleted",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether to include deleted events (with the \"status\" property set to \"cancelled\") in the result. Cancelled instances of recurring events (but not the underlying recurring event) will still be included if \"showDeleted\" and \"singleEvents\" are both False."
+                    },
+                    {
+                        "name": "singleEvents",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether to expand recurring events into instances and only return single one-off events and instances of recurring events, but not the underlying recurring events themselves. Optional. The default is False."
+                    },
+                    {
+                        "name": "syncToken",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Token obtained from the nextSyncToken field returned on the last page of results from the previous list request. It makes the result of this list request contain only entries that have changed since the last sync."
+                    },
+                    {
+                        "name": "timeMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "description": "Lower bound (inclusive) for an event's end time to filter by. Optional."
+                    },
+                    {
+                        "name": "timeMax",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "description": "Upper bound (exclusive) for an event's start time to filter by. Optional."
+                    },
+                    {
+                        "name": "timeZone",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Time zone used in the response. Optional. The default is the time zone of the calendar."
+                    },
+                    {
+                        "name": "updatedMin",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "description": "Lower bound for an event's last modification time (as a RFC3339 timestamp) to filter by. When specified, entries deleted since this time will always be included regardless of showDeleted."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of calendar events",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Events"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Insert an event in a calendar",
+                "operationId": "insertCalendarEvent",
+                "parameters": [
+                    {
+                        "name": "calendarId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the calendar to insert the event into."
+                    },
+                    {
+                        "name": "conferenceDataVersion",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Version number of conference data supported by the API client."
+                    },
+                    {
+                        "name": "maxAttendees",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "The maximum number of attendees to include in the response. If there are more than the specified number of attendees, only the participant is returned. Optional."
+                    },
+                    {
+                        "name": "sendNotifications",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether to send notifications about the creation of the new event. Optional. The default is False."
+                    },
+                    {
+                        "name": "supportsAttachments",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "Whether API client supports event attachments. Optional. The default is False."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful insertion of the event",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/calendar/v3/calendars/{calendarId}/events/{eventId}": {
+            "patch": {
+                "summary": "Patch an event in a calendar",
+                "operationId": "patchCalendarEvent",
+                "parameters": [
+                    {
+                        "name": "calendarId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the calendar containing the event."
+                    },
+                    {
+                        "name": "eventId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "The ID of the event to patch."
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful patch of the event",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "File": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "mimeType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "FileList": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string"
+                    },
+                    "nextPageToken": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/File"
+                        }
+                    }
+                }
+            },
+            "CalendarListEntry": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string",
+                        "description": "Type of the resource (calendar#calendarListEntry)."
+                    },
+                    "etag": {
+                        "type": "string",
+                        "description": "ETag of the resource."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "ID of the calendar."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "Title of the calendar."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the calendar."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Geographic location of the calendar."
+                    },
+                    "timeZone": {
+                        "type": "string",
+                        "description": "The time zone of the calendar."
+                    },
+                    "summaryOverride": {
+                        "type": "string",
+                        "description": "The summary that the authenticated user has set for this calendar."
+                    },
+                    "colorId": {
+                        "type": "string",
+                        "description": "The color ID of the calendar."
+                    },
+                    "backgroundColor": {
+                        "type": "string",
+                        "description": "The background color of the calendar in hexadecimal format."
+                    },
+                    "foregroundColor": {
+                        "type": "string",
+                        "description": "The foreground color of the calendar in hexadecimal format."
+                    },
+                    "hidden": {
+                        "type": "boolean",
+                        "description": "Whether the calendar is hidden from the list."
+                    },
+                    "selected": {
+                        "type": "boolean",
+                        "description": "Whether the calendar content shows up in the calendar UI."
+                    },
+                    "accessRole": {
+                        "type": "string",
+                        "description": "The effective access role that the authenticated user has on the calendar (e.g., freeBusyReader, reader, writer, owner)."
+                    },
+                    "defaultReminders": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "The method used by this reminder (e.g., email, sms)."
+                                },
+                                "minutes": {
+                                    "type": "integer",
+                                    "description": "Number of minutes before the event when the reminder should trigger."
+                                }
+                            }
+                        }
+                    },
+                    "notificationSettings": {
+                        "type": "object",
+                        "properties": {
+                            "notifications": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string",
+                                            "description": "The type of notification (e.g., eventCreation, eventChange)."
+                                        },
+                                        "method": {
+                                            "type": "string",
+                                            "description": "The method used by this notification (e.g., email)."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "primary": {
+                        "type": "boolean",
+                        "description": "Whether the calendar is the primary calendar of the authenticated user."
+                    },
+                    "deleted": {
+                        "type": "boolean",
+                        "description": "Whether the calendar has been deleted from the calendar list."
+                    }
+                }
+            },
+            "CalendarList": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string",
+                        "description": "Type of the resource (calendar#calendarList)."
+                    },
+                    "etag": {
+                        "type": "string",
+                        "description": "ETag of the resource."
+                    },
+                    "nextPageToken": {
+                        "type": "string",
+                        "description": "Token used to access the next page of this result."
+                    },
+                    "nextSyncToken": {
+                        "type": "string",
+                        "description": "Token used at a later point in time to retrieve only the entries that have changed since this result was returned."
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CalendarListEntry"
+                        }
+                    }
+                }
+            },
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string",
+                        "description": "Type of the resource (calendar#event)."
+                    },
+                    "etag": {
+                        "type": "string",
+                        "description": "ETag of the resource."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "ID of the event."
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Status of the event (e.g., confirmed, tentative, cancelled)."
+                    },
+                    "htmlLink": {
+                        "type": "string",
+                        "description": "An absolute link to this event in the Google Calendar Web UI."
+                    },
+                    "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Creation time of the event (as a RFC3339 timestamp)."
+                    },
+                    "updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Last modification time of the event (as a RFC3339 timestamp)."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "Title of the event."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the event."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Geographic location of the event."
+                    },
+                    "colorId": {
+                        "type": "string",
+                        "description": "The color ID of the event."
+                    },
+                    "creator": {
+                        "type": "object",
+                        "properties": {
+                            "email": {
+                                "type": "string",
+                                "description": "The creator's email address."
+                            },
+                            "displayName": {
+                                "type": "string",
+                                "description": "The creator's name, if available."
+                            },
+                            "self": {
+                                "type": "boolean",
+                                "description": "Whether the creator corresponds to the calendar owner."
+                            }
+                        }
+                    },
+                    "organizer": {
+                        "type": "object",
+                        "properties": {
+                            "email": {
+                                "type": "string",
+                                "description": "The organizer's email address."
+                            },
+                            "displayName": {
+                                "type": "string",
+                                "description": "The organizer's name, if available."
+                            },
+                            "self": {
+                                "type": "boolean",
+                                "description": "Whether the organizer corresponds to the calendar owner."
+                            }
+                        }
+                    },
+                    "start": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string",
+                                "format": "date",
+                                "description": "The date of the start of the event (for all-day events)."
+                            },
+                            "dateTime": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "The time of the start of the event (as a RFC3339 timestamp)."
+                            },
+                            "timeZone": {
+                                "type": "string",
+                                "description": "The time zone of the start time."
+                            }
+                        }
+                    },
+                    "end": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string",
+                                "format": "date",
+                                "description": "The date of the end of the event (for all-day events)."
+                            },
+                            "dateTime": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "The time of the end of the event (as a RFC3339 timestamp)."
+                            },
+                            "timeZone": {
+                                "type": "string",
+                                "description": "The time zone of the end time."
+                            }
+                        }
+                    },
+                    "recurrence": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "RRULE, EXRULE, RDATE, and EXDATE lines for a recurring event."
+                        }
+                    },
+                    "recurringEventId": {
+                        "type": "string",
+                        "description": "For an instance of a recurring event, the ID of the recurring event to which this instance belongs."
+                    },
+                    "originalStartTime": {
+                        "type": "object",
+                        "properties": {
+                            "date": {
+                                "type": "string",
+                                "format": "date",
+                                "description": "The date of the start of the original recurring event (for all-day events)."
+                            },
+                            "dateTime": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "The time of the start of the original recurring event (as a RFC3339 timestamp)."
+                            },
+                            "timeZone": {
+                                "type": "string",
+                                "description": "The time zone of the original start time."
+                            }
+                        }
+                    },
+                    "transparency": {
+                        "type": "string",
+                        "description": "Whether the event blocks time on the calendar. Optional. Possible values are \"opaque\" (default) or \"transparent\"."
+                    },
+                    "visibility": {
+                        "type": "string",
+                        "description": "Visibility of the event. Optional. Possible values are \"default\" (default), \"public\", \"private\", and \"confidential\"."
+                    },
+                    "iCalUID": {
+                        "type": "string",
+                        "description": "Event ID in the iCalendar format."
+                    },
+                    "sequence": {
+                        "type": "integer",
+                        "description": "Sequence number as per iCalendar."
+                    },
+                    "attendees": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "description": "The attendee's email address."
+                                },
+                                "displayName": {
+                                    "type": "string",
+                                    "description": "The attendee's name, if available."
+                                },
+                                "organizer": {
+                                    "type": "boolean",
+                                    "description": "Whether the attendee is the organizer of the event."
+                                },
+                                "self": {
+                                    "type": "boolean",
+                                    "description": "Whether the attendee corresponds to the calendar owner."
+                                },
+                                "resource": {
+                                    "type": "boolean",
+                                    "description": "Whether the attendee is a resource."
+                                },
+                                "optional": {
+                                    "type": "boolean",
+                                    "description": "Whether this is an optional attendee."
+                                },
+                                "responseStatus": {
+                                    "type": "string",
+                                    "description": "The attendee's response status. Possible values are \"needsAction\", \"declined\", \"tentative\", \"accepted\"."
+                                },
+                                "comment": {
+                                    "type": "string",
+                                    "description": "The attendee's response comment."
+                                },
+                                "additionalGuests": {
+                                    "type": "integer",
+                                    "description": "Number of additional guests brought by the attendee."
+                                }
+                            }
+                        }
+                    },
+                    "attendeesOmitted": {
+                        "type": "boolean",
+                        "description": "Whether the event's attendees are omitted to keep the API response small."
+                    },
+                    "extendedProperties": {
+                        "type": "object",
+                        "properties": {
+                            "private": {
+                                "type": "object",
+                                "description": "Properties that are private to the copy of the event that appears on this calendar."
+                            },
+                            "shared": {
+                                "type": "object",
+                                "description": "Properties that are shared between copies of the event on other attendees' calendars."
+                            }
+                        }
+                    },
+                    "hangoutLink": {
+                        "type": "string",
+                        "description": "An absolute link to the Google+ Hangout associated with this event."
+                    },
+                    "conferenceData": {
+                        "type": "object",
+                        "properties": {
+                            "createRequest": {
+                                "type": "object",
+                                "properties": {
+                                    "requestId": {
+                                        "type": "string",
+                                        "description": "A unique ID for the conference request."
+                                    },
+                                    "conferenceSolutionKey": {
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The conference solution type."
+                                            }
+                                        }
+                                    },
+                                    "status": {
+                                        "type": "object",
+                                        "properties": {
+                                            "statusCode": {
+                                                "type": "string",
+                                                "description": "The status code of the request."
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "entryPoints": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "entryPointType": {
+                                            "type": "string",
+                                            "description": "The type of conference entry point."
+                                        },
+                                        "uri": {
+                                            "type": "string",
+                                            "description": "The URI of the entry point."
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "description": "The label for the entry point."
+                                        },
+                                        "pin": {
+                                            "type": "string",
+                                            "description": "The PIN to access the conference."
+                                        },
+                                        "accessCode": {
+                                            "type": "string",
+                                            "description": "The access code to access the conference."
+                                        },
+                                        "meetingCode": {
+                                            "type": "string",
+                                            "description": "The meeting code to access the conference."
+                                        },
+                                        "passcode": {
+                                            "type": "string",
+                                            "description": "The passcode to access the conference."
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "description": "The password to access the conference."
+                                        }
+                                    }
+                                }
+                            },
+                            "conferenceSolution": {
+                                "type": "object",
+                                "properties": {
+                                    "key": {
+                                        "type": "object",
+                                        "properties": {
+                                            "type": {
+                                                "type": "string",
+                                                "description": "The conference solution type."
+                                            }
+                                        }
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The conference solution name."
+                                    },
+                                    "iconUri": {
+                                        "type": "string",
+                                        "description": "The URI of the conference solution icon."
+                                    }
+                                }
+                            },
+                            "conferenceId": {
+                                "type": "string",
+                                "description": "The ID of the conference."
+                            },
+                            "signature": {
+                                "type": "string",
+                                "description": "The signature of the conference data."
+                            }
+                        }
+                    },
+                    "gadget": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "The gadget's type."
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "The gadget's title."
+                            },
+                            "link": {
+                                "type": "string",
+                                "description": "The gadget's link."
+                            },
+                            "iconLink": {
+                                "type": "string",
+                                "description": "The gadget's icon link."
+                            },
+                            "width": {
+                                "type": "integer",
+                                "description": "The gadget's width in pixels."
+                            },
+                            "height": {
+                                "type": "integer",
+                                "description": "The gadget's height in pixels."
+                            },
+                            "display": {
+                                "type": "string",
+                                "description": "The gadget's display mode."
+                            }
+                        }
+                    },
+                    "anyoneCanAddSelf": {
+                        "type": "boolean",
+                        "description": "Whether anyone can invite themselves to the event. Optional. The default is False."
+                    },
+                    "guestsCanInviteOthers": {
+                        "type": "boolean",
+                        "description": "Whether attendees other than the organizer can invite others to the event. Optional. The default is True."
+                    },
+                    "guestsCanModify": {
+                        "type": "boolean",
+                        "description": "Whether attendees other than the organizer can modify the event. Optional. The default is False."
+                    },
+                    "guestsCanSeeOtherGuests": {
+                        "type": "boolean",
+                        "description": "Whether attendees other than the organizer can see the list of attendees. Optional. The default is True."
+                    },
+                    "privateCopy": {
+                        "type": "boolean",
+                        "description": "Whether this is a private copy of the event."
+                    },
+                    "locked": {
+                        "type": "boolean",
+                        "description": "Whether the event is locked."
+                    },
+                    "reminders": {
+                        "type": "object",
+                        "properties": {
+                            "useDefault": {
+                                "type": "boolean",
+                                "description": "Whether the default reminders are used."
+                            },
+                            "overrides": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "method": {
+                                            "type": "string",
+                                            "description": "The method used by this reminder (e.g., email, sms)."
+                                        },
+                                        "minutes": {
+                                            "type": "integer",
+                                            "description": "Number of minutes before the event when the reminder should trigger."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "source": {
+                        "type": "object",
+                        "properties": {
+                            "url": {
+                                "type": "string",
+                                "description": "URL of the source providing the event."
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Title of the source providing the event."
+                            }
+                        }
+                    }
+                }
+            },
+            "Events": {
+                "type": "object",
+                "properties": {
+                    "kind": {
+                        "type": "string",
+                        "description": "Type of the resource (calendar#events)."
+                    },
+                    "etag": {
+                        "type": "string",
+                        "description": "ETag of the resource."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "Title of the calendar."
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Description of the calendar."
+                    },
+                    "updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Last modification time of the calendar (as a RFC3339 timestamp)."
+                    },
+                    "timeZone": {
+                        "type": "string",
+                        "description": "The time zone of the calendar."
+                    },
+                    "accessRole": {
+                        "type": "string",
+                        "description": "The user's access role for this calendar."
+                    },
+                    "defaultReminders": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "description": "The method used by this reminder (e.g., email, sms)."
+                                },
+                                "minutes": {
+                                    "type": "integer",
+                                    "description": "Number of minutes before the event when the reminder should trigger."
+                                }
+                            }
+                        }
+                    },
+                    "nextPageToken": {
+                        "type": "string",
+                        "description": "Token used to access the next page of this result."
+                    },
+                    "nextSyncToken": {
+                        "type": "string",
+                        "description": "Token used at a later point in time to retrieve only the entries that have changed since this result was returned."
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Event"
+                        }
+                    }
+                }
+            }
+        }
+    }
+};

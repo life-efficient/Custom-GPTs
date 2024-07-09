@@ -11,7 +11,7 @@ const StoreAccessToken = () => {
     localStorage.setItem('access_token', params.get('access_token'))
     // redirect back to correct agent and state
     const router = useRouter()
-    router.push('/chat/calendar')
+    router.push('/chat/example') // TODO replace with correct agent and state
     return "hello world"
 }
 

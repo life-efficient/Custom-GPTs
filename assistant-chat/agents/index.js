@@ -71,7 +71,7 @@ If there are events that are designed to overlap, create them as a separate cale
         ],
         tools: [
             'sheets',
-            'drive+cal'
+            // 'drive+cal'
         ]
     },
     {
