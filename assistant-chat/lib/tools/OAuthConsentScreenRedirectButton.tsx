@@ -15,7 +15,7 @@ const OAuthConsentScreenRedirectButton = (oAuthConfig: OAuthConsentScreenRedirec
     const urlParams = new URLSearchParams({
         client_id: oAuthConfig.clientId,
         scope: oAuthConfig.scopes,
-        redirect_uri: 'http://localhost:3000/access',
+        redirect_uri: 'http://localhost:3000/access', // TODO pass in agent and state
         response_type: 'token',
         include_granted_scopes: 'true',
         state: 'state_parameter_passthrough_value'

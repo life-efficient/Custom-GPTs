@@ -8,7 +8,7 @@ const StoreAccessToken = () => {
     console.log(params)
     console.log(params.get('access_token'))
     // store access token in localstorage
-    localStorage.setItem('access_token', params.get('access_token'))
+    localStorage.setItem('access_token', params.get('access_token')) // TODO store as `${toolName}-access_token` to allow multiple access token storage
     // redirect back to correct agent and state
     const router = useRouter()
     router.push('/chat/example') // TODO replace with correct agent and state
