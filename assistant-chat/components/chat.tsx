@@ -99,11 +99,6 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
         agentConfig={agentConfig}
         exampleMessages={agentConfig?.exampleMessages || []}
       />
-      <OAuthConsentScreenRedirectButton
-        authUrl='https://accounts.google.com/o/oauth2/v2/auth'
-        clientId='562576427978-irfv775j08db68mo1qj98o9m0fkhdi30.apps.googleusercontent.com'
-        scopes='https://www.googleapis.com/auth/drive'
-      />
     </div>
   )
 }
