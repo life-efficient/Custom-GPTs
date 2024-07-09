@@ -366,54 +366,85 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
                     
                     const toolCallId = nanoid()
 
-                    const addAssistantMessageToAiState = (aiState, message) => {
-                        aiState.done({
-                            ...aiState.get(),
-                            messages: [
-                                ...aiState.get().messages,
-                                {
-                                    id: nanoid(),
-                                    role: 'assistant',
-                                    content: message
-                                }
-                            ]
-                        })
-                    }
+                    // TODO fix this abstraction. The aiState doesn't update
+                    // const addAssistantMessageToAiState = (aiState, message) => {
+                    //     aiState.done({
+                    //         ...aiState.get(),
+                    //         messages: [
+                    //             ...aiState.get().messages,
+                    //             {
+                    //                 id: nanoid(),
+                    //                 role: 'assistant',
+                    //                 content: message
+                    //             }
+                    //         ]
+                    //     })
+                    // }
 
-                    const addToolCallMessageToAiState = (aiState, toolName, toolCallId, args, result) => {
-                        aiState.done({
-                            ...aiState.get(),
-                            messages: [
-                                ...aiState.get().messages,
-                                {
-                                    id: nanoid(),
-                                    role: 'tool',
-                                    content: [
-                                        {
-                                            type: 'tool-call',
-                                            toolName,
-                                            toolCallId,
-                                            args
-                                        }
-                                    ]
-                                },
-                                {
-                                    id: nanoid(),
-                                    role: 'tool',
-                                    content: [
-                                        {
-                                            type: 'tool-result',
-                                            toolName,
-                                            toolCallId,
-                                            result
-                                        }
-                                    ]
-                                }
-                            ]
-                        })
-                    }
+                    // const addToolCallMessageToAiState = (aiState, toolName, toolCallId, args, result) => {
+                    //     aiState.done({
+                    //         ...aiState.get(),
+                    //         messages: [
+                    //             ...aiState.get().messages,
+                    //             {
+                    //                 id: nanoid(),
+                    //                 role: 'tool',
+                    //                 content: [
+                    //                     {
+                    //                         type: 'tool-call',
+                    //                         toolName,
+                    //                         toolCallId,
+                    //                         args
+                    //                     }
+                    //                 ]
+                    //             },
+                    //             {
+                    //                 id: nanoid(),
+                    //                 role: 'tool',
+                    //                 content: [
+                    //                     {
+                    //                         type: 'tool-result',
+                    //                         toolName,
+                    //                         toolCallId,
+                    //                         result
+                    //                     }
+                    //                 ]
+                    //             }
+                    //         ]
+                    //     })
+                    // }
 
-                    addToolCallMessageToAiState(aiState, methodSchema.operationId, toolCallId, { payloadGeneratedByModel }, response)
+                    // addToolCallMessageToAiState(aiState, methodSchema.operationId, toolCallId, { payloadGeneratedByModel }, response)
+                    aiState.done({
+                        ...aiState.get(),
+                        messages: [
+                            ...aiState.get().messages,
+                            {
+                                id: nanoid(),
+                                role: 'assistant',
+                                content: [
+                                    {
+                                        type: 'tool-call',
+                                        toolName: methodSchema.operationId,
+                                        toolCallId,
+                                        args: { payloadGeneratedByModel }
+                                    }
+                                ]
+                            },
+                            {
+                                id: nanoid(),
+                                role: 'tool',
+                                content: [
+                                    {
+                                        type: 'tool-result',
+                                        toolName: methodSchema.operationId,
+                                        toolCallId,
+                                        result: response
+                                    }
+                                ]
+                            }
+                        ]
+                    })
                     
                     // allow AI to comment on tool response by calling streamUI
                     console.log('making follow up response:', aiState, agentConfig, {})
@@ -432,11 +463,11 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
                                 <IconOpenAI />
                             </div>
                             {/* TODO correct small left indentation error of follow-up response */}
-                            <div className='flex flex-col gap-4'>
-                                <div className="text-muted-foreground ml-4 flex-1 space-y-2 overflow-hidden px-1">
+                            <div className='ml-4 flex flex-col gap-4'>
+                                <div className="text-muted-foreground flex-1 space-y-2 overflow-hidden px-1">
                                     {`Talked to ${endpoint} to call ${methodSchema.operationId}`}
                                 </div>
-                                <div className='ml-4 flex-1 space-y-2 overflow-hidden px-1'>
+                                <div className='flex-1 space-y-2 overflow-hidden px-1'>
                                     {aiResponse.value}
                                 </div>
                             </div>
