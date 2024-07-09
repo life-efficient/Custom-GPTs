@@ -432,7 +432,7 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
                                 <IconOpenAI />
                             </div>
                             {/* TODO correct small left indentation error of follow-up response */}
-                            <div>
+                            <div className='flex flex-col gap-4'>
                                 <div className="text-muted-foreground ml-4 flex-1 space-y-2 overflow-hidden px-1">
                                     {`Talked to ${endpoint} to call ${methodSchema.operationId}`}
                                 </div>
