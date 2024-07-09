@@ -6,6 +6,9 @@ import { getMutableAIState } from 'ai/rsc'
 import { getResponse } from './chat/ai';
 import { AgentConfig } from '@/lib/types';
 
+import OAuthConsentScreenRedirectButton from './tools/OAuthConsentScreenRedirectButton';
+import { set } from 'date-fns';
+
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 // EXAMPLE SPEC for copilot to use for writing the getTool function
@@ -342,21 +345,51 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
             const toolDefinition = {
                 description: methodSchema.summary, // TODO: check if this is right
                 parameters,
-                generate: async function*(payloadGeneratedByModel){
+                generate: async function* (payloadGeneratedByModel) {
+
+                    let continueTool = true
+                    
+                    console.log("Access tokens", accessTokens)
+                    // TODO: Check some sort of state variable which continues where you left off. 
+
+                    // Check if access token exists.
+                    // if it doesn't exist make component to ask for it
+                    // if it does exist then continue as normal.
+
+                    if (!accessTokens) {
+                        return <OAuthConsentScreenRedirectButton
+                            message='Please sign in to continue.'
+                            authUrl='https://accounts.google.com/o/oauth2/v2/auth'
+                            clientId='562576427978-irfv775j08db68mo1qj98o9m0fkhdi30.apps.googleusercontent.com'
+                            scopes='https://www.googleapis.com/auth/drive'
+                        />
+
+                    }
+                    const accessToken = accessTokens
+                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
+                    console.log('response', response)
+
+                    if (response === 'Failed to make API request: Error: Unauthorized: Invalid or expired token.') {
+                        console.log('Access token expired')
+                        return <OAuthConsentScreenRedirectButton
+                                message='Access token expired. Please sign in to continue.'
+                                authUrl='https://accounts.google.com/o/oauth2/v2/auth'
+                                clientId='562576427978-irfv775j08db68mo1qj98o9m0fkhdi30.apps.googleusercontent.com'
+                                scopes='https://www.googleapis.com/auth/drive'
+                                />
+
+                    }
+
                     yield (
                         <ToolCallLoadingStateMessage text={`Talking to ${endpoint} to call ${methodSchema.operationId}`} />
                     )
 
-                    // TODO get app-relevant access token... this one only works for the latest retrieved access token
-                    const accessToken = accessTokens
                     // TODO update /access to store different accesstokens within this object, instead of just a string for the latest accesstoken
                     // TODO check for access token in localstorage
                     // TODO refresh access token if expired
 
                     // TODO move params into respective endpoint query string params or payload
 
-                    const response = await makeToolApiRequest(accessToken, endpoint, payloadGeneratedByModel, method)
-                    console.log('response', response)
                     //  const aiState = getMutableAIState<typeof AI>()
                     // TODO update aiState as below
                     
