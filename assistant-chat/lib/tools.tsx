@@ -366,36 +366,54 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
                     
                     const toolCallId = nanoid()
 
-                    aiState.done({
-                        ...aiState.get(),
-                        messages: [
-                            ...aiState.get().messages,
-                            {
-                                id: nanoid(),
-                                role: 'assistant',
-                                content: [
-                                    {
-                                        type: 'tool-call',
-                                        toolName: methodSchema.operationId,
-                                        toolCallId,
-                                        args: { payloadGeneratedByModel }
-                                    }
-                                ]
-                            },
-                            {
-                                id: nanoid(),
-                                role: 'tool',
-                                content: [
-                                    {
-                                        type: 'tool-result',
-                                        toolName: methodSchema.operationId,
-                                        toolCallId,
-                                        result: response
-                                    }
-                                ]
-                            }
-                        ]
-                    })
+                    const addAssistantMessageToAiState = (aiState, message) => {
+                        aiState.done({
+                            ...aiState.get(),
+                            messages: [
+                                ...aiState.get().messages,
+                                {
+                                    id: nanoid(),
+                                    role: 'assistant',
+                                    content: message
+                                }
+                            ]
+                        })
+                    }
+
+                    const addToolCallMessageToAiState = (aiState, toolName, toolCallId, args, result) => {
+                        aiState.done({
+                            ...aiState.get(),
+                            messages: [
+                                ...aiState.get().messages,
+                                {
+                                    id: nanoid(),
+                                    role: 'tool',
+                                    content: [
+                                        {
+                                            type: 'tool-call',
+                                            toolName,
+                                            toolCallId,
+                                            args
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: nanoid(),
+                                    role: 'tool',
+                                    content: [
+                                        {
+                                            type: 'tool-result',
+                                            toolName,
+                                            toolCallId,
+                                            result
+                                        }
+                                    ]
+                                }
+                            ]
+                        })
+                    }
+
+                    addToolCallMessageToAiState(aiState, methodSchema.operationId, toolCallId, { payloadGeneratedByModel }, response)
                     
                     // allow AI to comment on tool response by calling streamUI
                     console.log('making follow up response:', aiState, agentConfig, {})
@@ -407,14 +425,13 @@ export default function getTool(toolName, accessTokens, agentConfig: AgentConfig
                     //   TODO update AI state
                     console.log('Ai response:', aiResponse)
                     return (
-                        // <>
-                        //     <ToolCallCompleteMessage text={`Talked to ${endpoint} to call ${methodSchema.operationId}`} />
-                        //     {aiResponse.value}
-                        // </>
+                        // TODO implement sequential function calling by changing dictionary above
+                        // TODO only return openAI icon for outer-most call of recursive tool calling
                         <div className="group relative flex items-start md:-ml-12">
                             <div className="flex size-[24px] shrink-0 select-none items-center justify-center rounded-md border bg-primary text-primary-foreground shadow-sm">
                                 <IconOpenAI />
                             </div>
+                            {/* TODO correct small left indentation error of follow-up response */}
                             <div>
                                 <div className="text-muted-foreground ml-4 flex-1 space-y-2 overflow-hidden px-1">
                                     {`Talked to ${endpoint} to call ${methodSchema.operationId}`}
