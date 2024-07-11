@@ -9,6 +9,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { signOut } from '@/auth'
+import Link from "next/link";
+import { Url } from 'url';
 
 export interface UserMenuProps {
   user: Session['user']
@@ -32,9 +34,7 @@ export function UserMenu({ user }: UserMenuProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={8} align="start" className="w-fit">
-          <DropdownMenuItem className="flex-col items-start">
-            <div className="text-xs text-zinc-500">{user.email}</div>
-          </DropdownMenuItem>
+          <DropDownMenuItemButton label="Billing" link="/billing" />
           <DropdownMenuSeparator />
           <form
             action={async () => {
@@ -49,5 +49,20 @@ export function UserMenu({ user }: UserMenuProps) {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
+  )
+}
+
+interface DropDownMenuItemButtonProps {
+  label: string
+  link: Url
+}
+
+const DropDownMenuItemButton = ({ label, link }: DropDownMenuItemButtonProps) => {
+  return (
+    <Link href={link}>
+      <DropdownMenuItem className="flex-col items-start cursor-pointer text-xs">
+        {label}
+      </DropdownMenuItem>
+    </Link>
   )
 }
