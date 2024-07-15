@@ -30,6 +30,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "lib/tools.jsx", "agents/index.js"  ],
   "exclude": ["node_modules"]
 }

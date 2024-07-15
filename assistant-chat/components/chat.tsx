@@ -15,6 +15,7 @@ import { useSearchParams } from 'next/navigation'
 import agents from '@/agents'
 // import useGoogleDrive from '@/lib/hooks/google'
 import OAuthConsentScreenRedirectButton from '@/lib/tools/OAuthConsentScreenRedirectButton'
+import Payment from '@/components/payment'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   agentId: string
@@ -76,6 +77,7 @@ export function Chat({ agentId, id, className, session, missingKeys }: ChatProps
       className="group w-full overflow-auto pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
       ref={scrollRef}
     >
+      <Payment />
       <div
         className={cn('pb-[200px] pt-4 md:pt-10', className)}
         ref={messagesRef}
